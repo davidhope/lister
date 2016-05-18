@@ -1,0 +1,38 @@
+[
+    {
+        "mls": 123456,
+        "parcel":132213.141232,
+        "address": "123 main st",
+        "price": "1233121",
+        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "title": "sweet house",
+        "description": "One sweet crib."
+    },
+    {
+        "mls": 123456,
+        "parcel":132213.141232,
+        "address": "123 main st",
+        "price": "1233121",
+        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "title": "sweet house",
+        "description": "One sweet crib."
+    },
+    {
+        "mls": 123456,
+        "parcel":132213.141232,
+        "address": "123 main st",
+        "price": "1233121",
+        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "title": "sweet house",
+        "description": "One sweet crib."
+    },
+    {
+        "mls": 123456,
+        "parcel":132213.141232,
+        "address": "123 main st",
+        "price": "1233121",
+        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "title": "sweet house",
+        "description": "One sweet crib."
+    }
+]
