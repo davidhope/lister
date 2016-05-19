@@ -1,0 +1,19 @@
+{
+    "mls": 123454,
+    "parcel":132213.141233,
+    "address": "14889 second st",
+    "price": "3233121",
+    "images": [
+      "img/listings/image0.jpg",
+      "img/listings/image1.jpg",
+      "img/listings/image2.jpg"
+    ],
+    "title": "sweet house",
+    "description": "One sweet crib.",
+    "featured": false,
+    "reduced": false,
+    "amenities":[
+      {"name": "Pool","description":"large custom pool."},
+      {"name": "Guest House","description":"sweet guest house."}
+    ]
+}

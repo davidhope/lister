@@ -4,9 +4,11 @@
 
 var listingServices = angular.module('listingServices', ['ngResource']);
 
-listingServices.factory('Listing', ['$resource',
+listingServices.factory('ListingService', ['$resource',
   function($resource){
-    return $resource('listings/:listingId.json', {}, {
-      query: {method:'GET', params:{listingId:'listings'}, isArray:true}
+    return $resource('listings/:mls.json', {}, {
+      query: {method:'GET', params:{mls:'listings'}, isArray:true},
+      save: {},
+      delete{}
     });
   }]);

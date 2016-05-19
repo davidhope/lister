@@ -17,6 +17,7 @@ listingApp.config(['$routeProvider',
         templateUrl: 'partials/listings.html',
         controller: 'ListingCtrl'
       }).
+      // :mls comes from url and sends to the ListingDetailCtrl in $routeParams
       when('/listings/:mls', {
         templateUrl: 'partials/listing-detail.html',
         controller: 'ListingDetailCtrl'

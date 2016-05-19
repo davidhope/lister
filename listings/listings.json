@@ -1,37 +1,37 @@
 [
     {
-        "mls": 123456,
+        "mls": 123453,
         "parcel":132213.141232,
         "address": "123 main st",
-        "price": "1233121",
-        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "price": "4233121",
+        "imageUrl": "img/listings/image.jpg",
+        "title": "sweet house",
+        "description": "One sweet crib."
+    },
+    {
+        "mls": 123454,
+        "parcel":132213.141233,
+        "address": "14889 second st",
+        "price": "3233121",
+        "imageUrl": "img/listings/image.jpg",
+        "title": "sweet house",
+        "description": "One sweet crib."
+    },
+    {
+        "mls": 123455,
+        "parcel":132213.141234,
+        "address": "7887 Third st",
+        "price": "2233121",
+        "imageUrl": "img/listings/image.jpg",
         "title": "sweet house",
         "description": "One sweet crib."
     },
     {
         "mls": 123456,
-        "parcel":132213.141232,
-        "address": "123 main st",
+        "parcel":132213.141235,
+        "address": "32321 Franklin st",
         "price": "1233121",
-        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
-        "title": "sweet house",
-        "description": "One sweet crib."
-    },
-    {
-        "mls": 123456,
-        "parcel":132213.141232,
-        "address": "123 main st",
-        "price": "1233121",
-        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
-        "title": "sweet house",
-        "description": "One sweet crib."
-    },
-    {
-        "mls": 123456,
-        "parcel":132213.141232,
-        "address": "123 main st",
-        "price": "1233121",
-        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "imageUrl": "img/listings/image.jpg",
         "title": "sweet house",
         "description": "One sweet crib."
     }

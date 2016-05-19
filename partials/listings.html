@@ -1,19 +1,15 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2">
-      <!--Sidebar content-->
-
       Search: <input ng-model="query">
       Sort by:
       <select ng-model="orderProp">
         <option value="address">Alphabetical</option>
         <option value="price">Price</option>
       </select>
-
     </div>
     <div class="col-md-10">
       <!--Body content-->
-
       <ul class="listings">
         <li ng-repeat="listing in listings | filter:query | orderBy:orderProp" class="thumbnail mls-listing">
           <a href="#/listings/{{listing.mls}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>
@@ -21,7 +17,6 @@
           <p>{{listing.description}}</p>
         </li>
       </ul>
-
     </div>
   </div>
 </div>
