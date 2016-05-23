@@ -36,6 +36,7 @@
 
         $li = json_decode($post);
 
+        //var_dump($li);
         $res = $lc->Save($li);
 
         ReturnJsonSuccess($res);
