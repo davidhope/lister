@@ -13,6 +13,8 @@ listingControllers.controller('ListingCtrl', ['$scope', 'ListingService',
 listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', 'ListingService',
   function($scope, $log, $routeParams, ListingService) {
 
+    $scope.statuses = ['For Sale', 'Sold', 'Cancelled', 'Pending', 'Rented', 'Withdrawn'];
+    
     //$routeParams.mls comes from app.js route for ListingDetailCtrl
     $scope.listing = ListingService.get({mls: $routeParams.mls}, function(listing) {
       $scope.mainImageUrl = listing.images[0];
