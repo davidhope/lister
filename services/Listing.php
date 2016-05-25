@@ -17,10 +17,19 @@
         }catch(Exception $e){
           ReturnJsonError($e->getMessage());
         }
+      }elseif(isset($_GET['status']){
+        try{
+          $statusId = $_GET['status'];
+          $lc = new ListingController;
+          $res = $lc->GetByStatus($statusId);
+          ReturnJsonSuccess($res);
+        }catch(Exception $e){
+          ReturnJsonError($e->getMessage());
+        }
       }else{
         try{
     			$lc = new ListingController;
-    			$res = $lc->ListListings();
+    			$res = $lc->GetAll();
     			//ReturnJsonTable($res);
           ReturnJsonSuccess($res);
     		}catch(Exception $e){

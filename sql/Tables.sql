@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `property` (
 	`pool` tinyint(1) unsigned default null,
 	`spa` tinyint(1) unsigned default null,
 	`yearBuilt` smallint(3) unsigned not null,
-	`parcel` varchar(14) DEFAULT NULL,
 	`schoolElementary` varchar(45) DEFAULT NULL,
 	`schoolMiddle` varchar(45) DEFAULT NULL,
 	`schoolHigh` varchar(45) DEFAULT NULL,
@@ -41,6 +40,26 @@ CREATE TABLE IF NOT EXISTS `property` (
 	KEY `fk_property_stateId_idx` (`stateId`),
     KEY `property_search_idx` (`address`,`location`,`neighborhoodId`)
 );
+
+CREATE TABLE `parcel` (
+	`parcelId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`parcelNumber` varchar(14) NOT NULL,
+	`lastUpdateDate` datetime NOT NULL,
+	`lastUpdateId` varchar(45) NOT NULL,
+	PRIMARY KEY (`parcelId`)
+);
+
+CREATE TABLE `propertyParcel` (
+	`propertyParcelId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`parcelId` int(11) unsigned NOT NULL,
+	`propertyId` int(11) unsigned NOT NULL,
+	`lastUpdateDate` datetime NOT NULL,
+	`lastUpdateId` varchar(45) NOT NULL,
+	PRIMARY KEY (`propertyParcelId`),
+	KEY `fk_propertyParcel_propertyId_idx` (`propertyId`),
+	KEY `fk_propertyParcel_parcelId_idx` (`parcelId`)
+);
+
 
 CREATE TABLE IF NOT EXISTS `userInfo` (
 	`userId` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -181,4 +200,4 @@ add constraint `fk_listing_statusTypeId` FOREIGN KEY (`statusTypeId`) REFERENCES
 add constraint `fk_listing_listingTypeId` FOREIGN KEY (`listingTypeId`) REFERENCES `listingType` (`listingTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 alter table `neighborhood`
-add constraint `fk_neighborhood_propertyTypeId` FOREIGN KEY (`propertyTypeId`) REFERENCES `propertyType` (`propertyTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+add constraint `fk_neighborhood_propertyTypeId` FOREIGN KEY (`propertyTypeId`) REFERENCES `propertyType` (`propertyTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
