@@ -55,7 +55,8 @@ Class Listing extends JsonDataObject
 	public $youtube_id;
 }
 Class ListingController{
-  public function ListListings(){
+
+  public function GetAll(){
 		$pdo;
 		$stmt;
 		try {
