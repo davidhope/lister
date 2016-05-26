@@ -53,7 +53,9 @@
 </form>
 
 
-<span>{{listing.price}}</span><span ng-click="increasePrice()">(+)</span><span ng-click="decreasePrice()">(-)</span>
+<span>{{listing.price}}</span>
+<span ng-click="increasePrice()">(+)</span>
+<span ng-click="decreasePrice()">(-)</span>
 
 <ul class="listing-thumbs">
   <li ng-repeat="img in listing.images">

@@ -11,14 +11,17 @@ homeControllers.controller('HomeCtrl', ['$scope',
 ]);
 
 listingControllers.controller('ListingCtrl', ['$scope', '$log', '$routeParams', 'ListingService',
-  function($scope, ListingService) {
+  function($scope, $log, $routeParams, ListingService) {
+
     $scope.listings = ListingService.query();
     $scope.orderProp = 'address';
+    $scope.statusFilter = '';
 
     $scope.getByStatus = function(){
-      $scope.listings = ListingService.getByStatus({status:$routeParams.status});
-    } 
-  }]);
+      $log.log($scope.statusFilter);
+      $scope.listings = ListingService.GetByStatus({status:$scope.statusFilter});
+    }
+}]);
 
 listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', 'ListingService',
   function($scope, $log, $routeParams, ListingService) {
@@ -47,12 +50,16 @@ listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routePar
 
     $scope.increasePrice = function() {
       $log.log($scope.listing.price);
-      $scope.listing.price += 100.00;
+      var _price = parseInt($scope.listing.price);
+      _price += 100.00;
+      $scope.listing.price = _price;
     };
 
     $scope.decreasePrice = function() {
       $log.log($scope.listing.price);
-      $scope.listing.price -= 100.00;
+      var _price = parseInt($scope.listing.price);
+      _price -= 100.00;
+      $scope.listing.price = _price;
     };
 
   }]);
