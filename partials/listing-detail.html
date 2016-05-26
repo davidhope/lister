@@ -1,16 +1,60 @@
+<!--
 <div class="listing-images">
   <img ng-src="{{img}}"
        class="listing"
        ng-repeat="img in listing.images"
        ng-class="{active: mainImageUrl==img}">
 </div>
+-->
 
-<h1>{{listing.title}}</h1>
-<p>{{listing.address}}</p>
-<p>{{listing.parcel}}</p>
-<p>{{listing.status}}</p>
+<form name="frmListing">
+  <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{listing.address}}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="txtAddress">Address: </label>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtAddress" name="txtAddress" ng-model="listing.address" /></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="txtParcel">Parcel: </label>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtParcel" name="txtParcel" ng-model="listing.parcel" readonly /></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="txtPrice">Price: </label>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtPrice" name="txtPrice" ng-model="listing.price" /></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="ddlStatus">Status: </label>
+          <div class="col-sm-10">
+            <select id="ddlStatus" ng-model="listing.status">
+              <option ng-repeat="status in statuses" value="{{status}}">{{status}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12"></div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="txtDescriptionShort">Description (abbreviated): </label>
+          <div class="col-sm-10">
+            <textarea id="txtDescriptionShort" style="min-width: 100%" rows="5" ng-model="listing.description_short"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="txtDescriptionLong">Description (detailed): </label>
+          <div class="col-sm-10">
+            <textarea name="txtDescriptionLong" style="min-width: 100%" rows="5" ng-model="listing.description_long"></textarea>
+          </div>
+        </div>
+      </div><!-- /panel-body -->
+    </div><!-- /panel panel-primary -->
+  </div><!-- /row -->
+</form>
+
+
 <span>{{listing.price}}</span><span ng-click="increasePrice()">(+)</span><span ng-click="decreasePrice()">(-)</span>
-<p>{{listing.description}}</p>
+
 <ul class="listing-thumbs">
   <li ng-repeat="img in listing.images">
     <img ng-src="{{img}}" ng-click="setImage(img)">
