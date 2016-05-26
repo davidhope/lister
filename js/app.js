@@ -4,6 +4,7 @@
 
 var listingApp = angular.module('listingApp', [
   'ngRoute',
+  'homeControllers',
   'listingAnimations',
   'listingControllers',
   'listingFilters',
@@ -13,6 +14,10 @@ var listingApp = angular.module('listingApp', [
 listingApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
+      when('/', {
+        templateUrl: 'partials/index.html',
+        controller: 'HomeCtrl'
+      }).
       when('/listings', {
         templateUrl: 'partials/listings.html',
         controller: 'ListingCtrl'
@@ -23,6 +28,6 @@ listingApp.config(['$routeProvider',
         controller: 'ListingDetailCtrl'
       }).
       otherwise({
-        redirectTo: '/listings'
+        redirectTo: '/'
       });
   }]);

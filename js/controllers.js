@@ -3,6 +3,12 @@
 /* Controllers */
 
 var listingControllers = angular.module('listingControllers', []);
+var homeControllers = angular.module('homeControllers', []);
+
+
+homeControllers.controller('HomeCtrl', ['$scope',
+  function($scope) {}
+]);
 
 listingControllers.controller('ListingCtrl', ['$scope', 'ListingService',
   function($scope, ListingService) {
