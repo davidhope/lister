@@ -71,6 +71,26 @@ Class ListingController{
 			throw new Exception($e->getMessage());
 		}
 	}
+
+  public function GetByStatus($status){
+		$pdo;
+		$stmt;
+		try {
+			$pdo = getPDO();
+			$stmt =  $pdo->prepare("select mls,marketing_id,address,price,date_listed,date_sold,type,status,shortsale,price_original,price_previous,price_reduced,price_sold,sold_notes,sqft_live,sqft_lot,acres,title,description_short,description_long,public_remarks,featured,front_page,area,subdiv,neighborhood,location,latitude,longitude,elevation,unit,city,state,zip,county,gated,floor,bed,bath,stories,garage,pool,spa,year_built,zoning,parcel,open_house_date,open_house_time,school_elementary,school_middle,school_high,youtube_id
+      from listings
+      where status = :status;");
+      $stmt->bindParam(':status',$status, PDO::PARAM_STR);
+      $stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result;
+		}catch(PDOException $pdoe){
+			throw new Exception($pdoe->getMessage());
+		}catch(Exception $e){
+			throw new Exception($e->getMessage());
+		}
+	}
+
 	public function Get($mls){
 		$pdo;
 		$stmt;

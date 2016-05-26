@@ -17,7 +17,7 @@
         }catch(Exception $e){
           ReturnJsonError($e->getMessage());
         }
-      }elseif(isset($_GET['status']){
+      } else if(isset($_GET['status'])){
         try{
           $statusId = $_GET['status'];
           $lc = new ListingController;

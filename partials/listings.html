@@ -1,17 +1,34 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2">
-      Search: <input ng-model="query">
+      Search: <input ng-model="query"><br />
+
       Sort by:
       <select ng-model="orderProp">
         <option value="address">Alphabetical</option>
         <option value="price">Price</option>
+      </select><br />
+      Status:
+      <!-- Client Filter-->
+      <select ng-model="statusFilter">
+      <!-- Service Filter -->
+      <!--<select ng-change="getByStatus()">-->
+        <option value="">All</option>
+        <option value="Sold">Sold</option>
+        <option value="For Sale">For Sale</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Rented">Rented</option>
+        <option value="Withdrawn">Withdrawn</option>
+        <option value="Inactive">Inactive</option>
       </select>
     </div>
     <div class="col-md-10">
       <!--Body content-->
       <ul class="listings">
-        <li ng-repeat="listing in listings | filter:query | orderBy:orderProp" class="thumbnail mls-listing">
+        <!-- filter on server -->
+        <!--<li ng-repeat="listing in listings | filter:query | orderBy:orderProp" class="thumbnail mls-listing">-->
+        <!-- filter on client -->
+        <li ng-repeat="listing in listings | filter:query | filter:{status:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing">
           <a href="#/listings/{{listing.mls}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>
           <a href="#/listings/{{listing.mls}}">{{listing.address}}</a>
           <p>{{listing.description}}</p>
