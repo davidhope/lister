@@ -20,10 +20,43 @@ select "{"
 
 union all
 
-SELECT concat("	public $",COLUMN_NAME,";")
-FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_SCHEMA = @schema_name 
-    AND TABLE_NAME = @table_name
+/*primary key col*/
+SELECT concat("public $",parentTable.COLUMN_NAME,";")
+FROM INFORMATION_SCHEMA.COLUMNS as parentTable
+WHERE parentTable.TABLE_SCHEMA = @schema_name 
+    AND parentTable.TABLE_NAME = @table_name
+    and parentTable.column_key = 'PRI'
+   
+union all
+ 
+/*find singular and nullable child objects for keyed columns of parent table*/
+SELECT distinct concat("public $",childTable.REFERENCED_TABLE_NAME,";")
+FROM INFORMATION_SCHEMA.COLUMNS parentTable
+inner join INFORMATION_SCHEMA.KEY_COLUMN_USAGE childTable
+	on childTable.REFERENCED_TABLE_NAME = parentTable.TABLE_NAME
+    and childTable.REFERENCED_TABLE_SCHEMA = parentTable.TABLE_SCHEMA
+WHERE parentTable.TABLE_SCHEMA = @schema_name 
+    AND childTable.TABLE_NAME = @table_name
+
+union all
+
+/*find child collection objects of parent table - other tables keyed on parenty table primary key*/
+SELECT distinct concat("public $",childTable.TABLE_NAME,";")
+FROM INFORMATION_SCHEMA.COLUMNS parentTable
+inner join INFORMATION_SCHEMA.KEY_COLUMN_USAGE childTable
+	on childTable.REFERENCED_TABLE_NAME = parentTable.TABLE_NAME
+    and childTable.REFERENCED_TABLE_SCHEMA = parentTable.TABLE_SCHEMA
+WHERE parentTable.TABLE_SCHEMA = @schema_name 
+    AND childTable.REFERENCED_TABLE_NAME = @table_name
+
+union all 
+
+/*rest of unkeyed columns*/
+SELECT concat("	public $",parentTable.COLUMN_NAME,";")
+FROM INFORMATION_SCHEMA.COLUMNS as parentTable
+WHERE parentTable.TABLE_SCHEMA = @schema_name  
+    AND parentTable.TABLE_NAME = @table_name
+    and parentTable.column_key = ''
 
 union all
 

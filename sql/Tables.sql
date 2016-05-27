@@ -55,7 +55,7 @@ CREATE TABLE `parcel` (
 );
 
 
-CREATE TABLE IF NOT EXISTS `propertyType` (
+CREATE TABLE IF NOT EXISTS `propertytype` (
 	`propertyTypeId` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(45) NOT NULL,
 	`lastUpdateDate` datetime NOT NULL,
@@ -85,7 +85,7 @@ inner join `tlg_v2`.`propertyType` pt
 	on n.type = pt.name
 where n.force_on_menu = 'y';
     
-CREATE TABLE IF NOT EXISTS `zoningType` (
+CREATE TABLE IF NOT EXISTS `zoningtype` (
 	`zoningTypeId` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(45) NOT NULL,
 	`lastUpdateDate` datetime NOT NULL,
@@ -97,29 +97,28 @@ insert into `zoningType`(`name`,`lastUpdateDate`,`lastUpdateId`)
 values('Commercial',now(),'dhope'),('Multi',now(),'dhope'),('Residential',now(),'dhope'),('Single',now(),'dhope');
 
 CREATE TABLE IF NOT EXISTS `listing` (
-	`listingId` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`propertyId` int(11) unsigned NOT NULL,
-	`mls` int(10) unsigned NOT NULL,
-	`statusTypeId` smallint(3) unsigned NOT NULL,
-	`title` varchar(45) NOT NULL,
-	`descriptionShort` varchar(150) NOT NULL,
-	`descriptionLong` varchar(5000) DEFAULT NULL,
-	`publicRemarks` varchar(500) DEFAULT NULL,
-	`marketingId` smallint(3) unsigned DEFAULT NULL,
-	`youTubeId` varchar(15) DEFAULT NULL,
+	`listingId` int(11) unsigned not null AUTO_INCREMENT,
+	`propertyId` int(11) unsigned not null,
+    `agentId` int(11) unsigned not null,
+    `saleId` int(11) unsigned default null,
+	`mls` int(10) unsigned not null,
+	`title` varchar(45) not null,
+	`descriptionShort` varchar(150) not null,
+	`descriptionLong` varchar(5000) default null,
+	`publicRemarks` varchar(500) default null,
+	`marketingId` smallint(3) unsigned default null,
+	`youTubeId` varchar(15) default null,
 	`shortSale` tinyint(1) unsigned default null,
 	`featured` tinyint(1) unsigned default null,
 	`frontPage` tinyint(1) unsigned default null,
-    `agendId` int(11) unsigned not null,
-	`lastUpdateDate` datetime NOT NULL,
-	`lastUpdateId` varchar(45) NOT NULL,
+	`lastUpdateDate` datetime not null,
+	`lastUpdateId` varchar(45) not null,
 	PRIMARY KEY (`listingId`),
 	KEY `fk_listing_propertyId_idx` (`propertyId`),
-	KEY `fk_listing_statusTypeId_idx` (`statusTypeId`),
-	KEY `listing_search_idx` (`statusTypeId`)
+	KEY `fk_listing_agentId_idx` (`agentId`)
 );
 
-CREATE TABLE IF NOT EXISTS `listingPrice` (
+CREATE TABLE IF NOT EXISTS `listingprice` (
 	`listingPriceId` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`listingId` int(11) unsigned NOT NULL,
 	`price` decimal(13,2) NOT NULL,
@@ -135,7 +134,8 @@ CREATE TABLE IF NOT EXISTS `listingStatus` (
 	`statusTypeId` int(11) unsigned NOT NULL,
 	`lastUpdateDate` datetime NOT NULL,
 	`lastUpdateId` varchar(45) NOT NULL,
-	PRIMARY KEY (`listingStatusId`)
+	PRIMARY KEY (`listingStatusId`),
+	KEY `listingStatus_statusTypeId_idx` (`statusTypeId`)
 );
 
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `userInfo` (
 	PRIMARY KEY (`userId`)
 );
 
-CREATE TABLE `agent` (
+CREATE TABLE IF NOT EXISTS `agent` (
 	`agentId` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`userId` int(11) unsigned NOT NULL,
 	`bio` varchar(5000) DEFAULT NULL,
@@ -192,17 +192,15 @@ CREATE TABLE IF NOT EXISTS `openHouse` (
 
 CREATE TABLE IF NOT EXISTS `sale` (
 	`saleId` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`listingId` int(11) unsigned NOT NULL,
 	`price` decimal(13,2) NOT NULL,
 	`saleDate` datetime NOT NULL,
 	`notes` varchar(150) NOT NULL,
 	`lastUpdateDate` datetime NOT NULL,
 	`lastUpdateId` varchar(45) NOT NULL,
-	PRIMARY KEY (`saleId`),
-	KEY `fk_sale_listingId_idx` (`listingId`)
+	PRIMARY KEY (`saleId`)
 );
 
-CREATE TABLE `state` (
+CREATE TABLE IF NOT EXISTS `state` (
 	`stateId` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(45) NOT NULL,
 	`abbreviation` varchar(45) NOT NULL,
@@ -215,26 +213,41 @@ insert into `state`(`name`,`abbreviation`,`lastUpdateDate`,`lastUpdateId`)
 select `name`,`abbreviation`,now(),'dhope'
 from `dhope_acadnav`.`states`;
 
-alter table `parcel`
-add constraint `fk_parcel_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 alter table `agent`
-add constraint `fk_agent_userId` FOREIGN KEY (`userId`) REFERENCES `userInfo` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+add constraint `fk_agent_userId` FOREIGN KEY (`userId`) REFERENCES `userinfo` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 alter table `listing`
-add constraint `fk_listing_statusTypeId` FOREIGN KEY (`statusTypeId`) REFERENCES `statusType` (`statusTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION, -- works
-add constraint `fk_listing_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+add constraint `fk_listing_agentId` FOREIGN KEY (`agentId`) REFERENCES `agent` (`agentId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+add constraint `fk_listing_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+add constraint `fk_listing_saleId` FOREIGN KEY (`saleId`) REFERENCES `sale` (`saleId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 alter table `neighborhood`
 add constraint `fk_neighborhood_propertyTypeId` FOREIGN KEY (`propertyTypeId`) REFERENCES `propertyType` (`propertyTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 alter table `property`
-add constraint `fk_property_propertyTypeId` FOREIGN KEY (`propertyTypeId`) REFERENCES `propertyType` (`propertyTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+add constraint `fk_property_propertyTypeId` FOREIGN KEY (`propertyTypeId`) REFERENCES `propertytype` (`propertyTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 add constraint `fk_property_neighborhoodId` FOREIGN KEY (`neighborhoodId`) REFERENCES `neighborhood` (`neighborhoodId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 add constraint `fk_property_zoningTypeId` FOREIGN KEY (`zoningTypeId`) REFERENCES `zoningType` (`zoningTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 add constraint `fk_property_stateId` FOREIGN KEY (`stateId`) REFERENCES `state` (`stateId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+/*multiple per listing*/
+alter table `listingprice`
+add constraint `fk_listingprice_listingId` FOREIGN KEY (`listingId`) REFERENCES `listing` (`listingId`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
+
+/*multiple per listing*/
+alter table `listingstatus`
+add constraint `fk_listingstatus_listingId` FOREIGN KEY (`listingId`) REFERENCES `listing` (`listingId`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
+
+/*multiple per listing*/
+alter table `openhouse`
+add constraint `fk_openhouse_listingId` FOREIGN KEY (`listingId`) REFERENCES `listing` (`listingId`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
+
+
+/*multiple per property*/
+alter table `parcel`
+add constraint `fk_parcel_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*insert into property*/
 
