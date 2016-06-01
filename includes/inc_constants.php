@@ -1,6 +1,6 @@
 <?php
-  $devBranch = 'C:\Users\dhope\Documents\Projects\lister';
-  //$devBranch = 'H:\Projects\lister';
+  //$devBranch = 'C:\Users\dhope\Documents\Projects\lister';
+  $devBranch = 'H:\Projects\lister';
 
 	define("con_userid", "userid");
   define("con_userName", "userName");
@@ -24,7 +24,7 @@
   }else{
     /*Development*/
 
-    define("con_dbConn", "mysql:host=localhost;dbname=tlg");
+    define("con_dbConn", "mysql:host=localhost;dbname=tlg_v2");
     define("con_dbUser","root");
     define("con_dbPass","ftcnj25");
 

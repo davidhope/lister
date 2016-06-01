@@ -1,17 +1,15 @@
 <?php
 	include('..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'inc_master.php');
-  
 	if(!isset($_SESSION[con_userid])){
-    $_SESSION[con_userid] = 'dhope';
-		//ReturnJsonError("Session expired");
-		//exit;
+		ReturnJsonError("Session expired");
+		exit;
 	}
 	switch ($_SERVER['REQUEST_METHOD']){
 		case 'GET';
 			if(isset($_GET['id'])){
 				try{
 					$id = $_GET['id'];
-					$obj = new Listing;
+					$obj = new Agent;
 					$res = $obj->get($id);
 					ReturnJsonSuccess($res);
 				}catch(Exception $e){
@@ -19,7 +17,7 @@
 				}
 			}else{
 				try{
-					$obj = new Listing;
+					$obj = new Agent;
 					$res = $obj->getAll();
 					ReturnJsonSuccess($res);
 				}catch(Exception $e){
@@ -29,7 +27,7 @@
 			break;
 		case 'POST';
 			try{
-				$obj = new Listing;
+				$obj = new Agent;
 				$post = file_get_contents('php://input');
 				$obj = json_decode($post);
 				$res = $obj->save();
@@ -41,7 +39,7 @@
   	case 'DELETE';
 			try{
 				$id = $_POST['id'];
-				$obj = new Listing;
+				$obj = new Agent;
 				$res = $obj->delete($id);
 				ReturnJsonSuccess($res);
 			}catch(Exception $e){

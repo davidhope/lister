@@ -1,6 +1,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2">
+      <a href="#/listings/0">New Listing</a><br />
+
       Search: <input ng-model="query"><br />
 
       Sort by:
@@ -29,8 +31,8 @@
         <!--<li ng-repeat="listing in listings | filter:query | orderBy:orderProp" class="thumbnail mls-listing">-->
         <!-- filter on client -->
         <li ng-repeat="listing in listings | filter:query | filter:{status:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing">
-          <a href="#/listings/{{listing.mls}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>
-          <a href="#/listings/{{listing.mls}}">{{listing.address}}</a>
+          <!--<a href="#/listings/{{listing.listingId}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>-->
+          <a href="#/listings/{{listing.listingId}}">{{listing.address}}</a>
           <p>{{listing.description}}</p>
           <p>{{listing.status}}</p>
         </li>
