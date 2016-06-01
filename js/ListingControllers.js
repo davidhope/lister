@@ -29,10 +29,9 @@ listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routePar
     $scope.statuses = ['For Sale', 'Sold', 'Cancelled', 'Pending', 'Rented', 'Withdrawn'];
 
     //$routeParams.mls comes from app.js route for ListingDetailCtrl
-    $scope.listing = ListingService.get({mls: $routeParams.mls}, function(listing) {
-      $scope.mainImageUrl = listing.images[0];
+    $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
+      //$scope.mainImageUrl = listing.images[0];
     });
-
 
     $scope.save = function(listing){
       $log.log(listing);

@@ -23,7 +23,7 @@ listingApp.config(['$routeProvider',
         controller: 'ListingCtrl'
       }).
       // :mls comes from url and sends to the ListingDetailCtrl in $routeParams
-      when('/listings/:mls', {
+      when('/listings/:listingId', {
         templateUrl: 'partials/listing-detail.html',
         controller: 'ListingDetailCtrl'
       }).
