@@ -1,7 +1,7 @@
 /* remove trailing comma in column list in save/update */
 
 set @schema_name = 'tlg_v2';
-set @classname = 'Sale';
+set @classname = 'Listing';
 set @table_name = lower(@classname);
 use `tlg_v2`;
 
@@ -93,11 +93,8 @@ select concat("  function __construct() {}")
 union all
 
 /*START LIST*/
-select concat("	public function getAll(){")
-
-union all 
-
 select concat_ws('\n',
+				"	public function getAll(){"
 				"		$pdo;", 
 				"		$stmt;",
 				"		try {",
@@ -186,7 +183,7 @@ select concat("				/*arrays of objects*/")
 
 union all
 
-/*find child collection objects of parent table - other tables keyed on parenty table primary key*/
+/*find child collection objects of parent table - other tables keyed on parent table primary key*/
 SELECT distinct concat_ws('\n',	
 							concat("				$",childTable.TABLE_NAME," = new ", CONCAT(UCASE(LEFT(childTable.TABLE_NAME, 1)), SUBSTRING(childTable.TABLE_NAME, 2)),"();"),
 							concat("				$",@classname,"->",childTable.TABLE_NAME," =  $", childTable.TABLE_NAME, "->getBy",@classname,"($",@classname,"->$", @keyname, ");")
@@ -196,7 +193,7 @@ inner join INFORMATION_SCHEMA.KEY_COLUMN_USAGE childTable
 	on childTable.REFERENCED_TABLE_NAME = parentTable.TABLE_NAME
     and childTable.REFERENCED_TABLE_SCHEMA = parentTable.TABLE_SCHEMA
 WHERE parentTable.TABLE_SCHEMA = @schema_name 
-    AND childTable.REFERENCED_TABLE_NAME = @table_name
+    AND childTable.REFERENCED_TABLE_NAME = @table_name/*tables referencing @table_name primaryKey*/
 
 union all
 
@@ -214,6 +211,34 @@ select concat_ws('\n',
 			"	}")
 /*END GET*/
 
+union all
+
+/*get by child objects*/
+SELECT distinct concat_ws('\n',	
+							concat("	public function getBy",UCASE(LEFT(childTable.TABLE_NAME,1)),SUBSTRING(childTable.TABLE_NAME, 2),"($",lower(childTable.TABLE_NAME),"Id){"),
+							"		$pdo;", 
+							"		$stmt;",
+							"		try {",
+							"			$pdo = getPDO();",
+                            concat("			$stmt =  $pdo->prepare(\"select column names here from ", childTable.TABLE_NAME," where ", lower(childTable.TABLE_NAME),"Id  = :", lower(childTable.TABLE_NAME),"Id;\");"),
+                            concat("			$stmt->bindParam(':",lower(childTable.TABLE_NAME),"Id',$",lower(childTable.TABLE_NAME),"Id, PDO::PARAM_INT);"),
+                            "			$stmt->execute();",
+                            "			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);",
+                            "			return $result;",
+							"		}catch(PDOException $pdoe){",
+							"			throw new Exception($pdoe->getMessage());",
+							"		}catch(Exception $e){",
+							"			throw new Exception($e->getMessage());",
+							"		}",
+							"	}"
+						)
+FROM INFORMATION_SCHEMA.COLUMNS parentTable
+inner join INFORMATION_SCHEMA.KEY_COLUMN_USAGE childTable
+	on childTable.REFERENCED_TABLE_NAME = parentTable.TABLE_NAME
+    and childTable.REFERENCED_TABLE_SCHEMA = parentTable.TABLE_SCHEMA
+WHERE parentTable.TABLE_SCHEMA = @schema_name 
+    AND childTable.REFERENCED_TABLE_NAME = @table_name/*tables referencing @table_name primaryKey*/
+				
 union all
 
 /*START SAVE*/
@@ -264,6 +289,7 @@ SELECT concat_ws('\n',
 														when 'decimal' then "PDO::PARAM_INT" 
 														when 'varchar' then "PDO::PARAM_STR"
 														when 'date' then "PDO::PARAM_STR"
+														when 'datetime' then "PDO::PARAM_STR"
 														else data_type 
 														end,");")
 				else
@@ -280,6 +306,7 @@ SELECT concat_ws('\n',
 															when 'decimal' then "PDO::PARAM_INT" 
 															when 'varchar' then "PDO::PARAM_STR"
 															when 'date' then "PDO::PARAM_STR"
+															when 'datetime' then "PDO::PARAM_STR"
 															else data_type 
 														end,");\n",
 								"					}\n")
@@ -334,6 +361,7 @@ SELECT concat_ws('\n',
 														when 'decimal' then "PDO::PARAM_INT" 
 														when 'varchar' then "PDO::PARAM_STR"
 														when 'date' then "PDO::PARAM_STR"
+														when 'datetime' then "PDO::PARAM_STR"
 														else data_type 
 														end,");")
 				else
@@ -350,6 +378,7 @@ SELECT concat_ws('\n',
 															when 'decimal' then "PDO::PARAM_INT" 
 															when 'varchar' then "PDO::PARAM_STR"
 															when 'date' then "PDO::PARAM_STR"
+															when 'datetime' then "PDO::PARAM_STR"
 															else data_type 
 														end,");\n",
 								"					}\n")
@@ -446,6 +475,7 @@ union all
 
 select "?>"
 
-
-/* Output to file*/
-INTO OUTFILE "H:\\Projects\\lister\\classes\\Sale.php";
+/* Output to file work*/
+INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\classes\\Listing.php";
+/* Output to file home
+INTO OUTFILE "H:\\Projects\\lister\\classes\\Property.php";*/

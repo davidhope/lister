@@ -9,8 +9,6 @@ WHERE parentTable.TABLE_SCHEMA = @schema_name
     AND parentTable.TABLE_NAME = @table_name
     and parentTable.column_key = 'PRI';
 
-set @keyVar = concat("$",LEFT(lcase(@keyname), 1),"Id");
-
 select "<?php"
 
 union all
@@ -79,5 +77,7 @@ union all
 
 select "?>"
 
-/* Output to file*/
-INTO OUTFILE "H:\\Projects\\lister\\services\\Sale.php";
+/* Output to file work*/
+INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\services\\Property.php";
+/* Output to file home
+INTO OUTFILE "H:\\Projects\\lister\\services\\Sale.php";*/

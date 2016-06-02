@@ -1,6 +1,6 @@
 <?php
 	include('..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'inc_master.php');
-  
+
 	if(!isset($_SESSION[con_userid])){
     $_SESSION[con_userid] = 'dhope';
 		//ReturnJsonError("Session expired");
@@ -11,7 +11,7 @@
 			if(isset($_GET['id'])){
 				try{
 					$id = $_GET['id'];
-					$obj = new Listing;
+					$obj = new Listing();
 					$res = $obj->get($id);
 					ReturnJsonSuccess($res);
 				}catch(Exception $e){
