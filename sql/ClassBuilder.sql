@@ -1,7 +1,7 @@
 /* remove trailing comma in column list in save/update */
 
 set @schema_name = 'tlg_v2';
-set @classname = 'Listing';
+set @classname = 'Property';
 set @table_name = lower(@classname);
 use `tlg_v2`;
 
@@ -124,11 +124,8 @@ union all
 union all
 
 /*START GET*/
-select concat("	public function get($", @keyname, "){")
-
-union all 
-
 select concat_ws('\n',
+				concat("	public function get($", @keyname, "){"),
 				"		$pdo;", 
 				"		$stmt;",
 				"		try {",
@@ -476,6 +473,6 @@ union all
 select "?>"
 
 /* Output to file work*/
-INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\classes\\Listing.php";
+INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\classes\\Property.php";
 /* Output to file home
 INTO OUTFILE "H:\\Projects\\lister\\classes\\Property.php";*/
