@@ -1,6 +1,47 @@
 drop database if exists `tlg_v2`;
 create database `tlg_v2`;
 use `tlg_v2`;
+/*not using because parcel number is unique to properties according to the data*/
+/*
+drop table  `propertystaging`;
+CREATE TABLE `propertystaging` (
+	`propertyStagingId` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`propertyTypeId` smallint(3) unsigned default null,
+	`neighborhoodId` int(11) unsigned default null,
+	`zoningTypeId` smallint(3) unsigned default null,
+	`areaCode` varchar(3) DEFAULT NULL,
+	`subdivision` varchar(50) default null,
+	`location` varchar(45) DEFAULT NULL,
+	`latitude` DECIMAL(10,6) DEFAULT NULL,
+	`longitude` DECIMAL(10,6) DEFAULT NULL,
+	`elevation` smallint(3) DEFAULT NULL,
+	`unit` varchar(10) DEFAULT NULL,
+	`address` varchar(50) NOT NULL,
+	`city` varchar(50) NOT NULL,
+	`stateId` int(11) unsigned not null,
+	`zip` varchar(5) NOT NULL,
+	`county` varchar(15) DEFAULT NULL,
+	`gated` tinyint(1) unsigned default null,
+	`floor` smallint(3) unsigned not null,
+	`bed` smallint(3) unsigned not null,
+	`bath` smallint(3) unsigned not null,
+	`stories` smallint(3) unsigned not null,
+	`garage` smallint(3) unsigned not null,
+	`pool` tinyint(1) unsigned default null,
+	`spa` tinyint(1) unsigned default null,
+	`yearBuilt` smallint(3) unsigned not null,
+	`schoolElementary` varchar(45) DEFAULT NULL,
+	`schoolMiddle` varchar(45) DEFAULT NULL,
+	`schoolHigh` varchar(45) DEFAULT NULL,
+	`sqFtLiving` decimal(13,2) DEFAULT NULL,
+	`sqFtLot` decimal(13,2) DEFAULT NULL,
+	`acres` decimal(13,2) DEFAULT NULL,
+	`parcelNumber` varchar(14) DEFAULT NULL,
+	`lastUpdateDate` datetime NOT NULL,
+	`lastUpdateId` varchar(45) NOT NULL,
+	PRIMARY KEY (`propertyStagingId`)
+);
+*/
 
 CREATE TABLE `property` (
 	`propertyId` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -34,6 +75,7 @@ CREATE TABLE `property` (
 	`sqFtLiving` decimal(13,2) DEFAULT NULL,
 	`sqFtLot` decimal(13,2) DEFAULT NULL,
 	`acres` decimal(13,2) DEFAULT NULL,
+	`parcelNumber` varchar(14) DEFAULT NULL,
 	`lastUpdateDate` datetime NOT NULL,
 	`lastUpdateId` varchar(45) NOT NULL,
 	PRIMARY KEY (`propertyId`),
@@ -44,6 +86,7 @@ CREATE TABLE `property` (
     KEY `property_search_idx` (`address`,`location`,`neighborhoodId`)
 );
 
+/*
 CREATE TABLE `parcel` (
 	`parcelId` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`parcelNumber` varchar(14) NOT NULL,
@@ -53,7 +96,7 @@ CREATE TABLE `parcel` (
 	PRIMARY KEY (`parcelId`),
 	KEY `fk_parcel_propertyId_idx` (`propertyId`)
 );
-
+*/
 
 CREATE TABLE IF NOT EXISTS `propertytype` (
 	`propertyTypeId` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
@@ -245,9 +288,10 @@ alter table `openhouse`
 add constraint `fk_openhouse_listingId` FOREIGN KEY (`listingId`) REFERENCES `listing` (`listingId`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
 
 
-/*multiple per property*/
+/*multiple per property
 alter table `parcel`
 add constraint `fk_parcel_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+*/
 
 /*insert into property*/
 
