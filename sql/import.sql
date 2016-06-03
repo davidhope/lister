@@ -16,9 +16,9 @@ select distinct parcel from listings;
 select * from listings where zoning is null and status = 'For Sale';
 select * from listings_mls where zoning is null and status = 'For Sale';
 
-/*Insert into propertystaging*/
+/*Insert into property*/
 /*
-INSERT INTO `tlg_v2`.`propertystaging`
+INSERT INTO `tlg_v2`.`property`
 (`propertyTypeId`,`neighborhoodId`,`zoningTypeId`,`areaCode`,`subdivision`,`location`,`latitude`,`longitude`,
 `elevation`,`unit`,`address`,`city`,`stateId`,`zip`,`county`,`gated`,`floor`,`bed`,`bath`,`stories`,`garage`,`pool`,
 `spa`,`yearBuilt`,`schoolElementary`,`schoolMiddle`,`schoolHigh`,`sqFtLiving`,`sqFtLot`,`acres`,`parcelNumber`,`lastUpdateDate`,`lastUpdateId`)
@@ -75,19 +75,19 @@ SELECT
     now(),
     'dhope'
 from `tlg`.`listings_mls` mls
-left join `tlg_v2`.`parcel` pcl	on mls.parcel = pcl.parcelNumber
+left join `tlg_v2`.`property` p	on mls.parcel = p.parcelNumber
 left join `tlg_v2`.`neighborhood` nbh on mls.`neighborhood` = nbh.name
 left join `tlg_v2`.`zoningtype` z on mls.`zoning` = z.name
 left join `tlg_v2`.`state` s on mls.`state` = s.name
-where pcl.parcelId is null;
+where p.propertyId is null;
 
 /*Insert into property*/
-/*
+/*Not using since trying to add parcel to property table
 INSERT INTO `tlg_v2`.`property`
 (`propertyTypeId`,`neighborhoodId`,`zoningTypeId`,`areaCode`,`subdivision`,`location`,`latitude`,`longitude`,
 `elevation`,`unit`,`address`,`city`,`stateId`,`zip`,`county`,`gated`,`floor`,`bed`,`bath`,`stories`,`garage`,`pool`,
 `spa`,`yearBuilt`,`schoolElementary`,`schoolMiddle`,`schoolHigh`,`sqFtLiving`,`sqFtLot`,`acres`,`lastUpdateDate`,`lastUpdateId`)
-*/
+
 SELECT
     `propertystaging`.`propertyTypeId`,
     `propertystaging`.`neighborhoodId`,
@@ -124,6 +124,7 @@ SELECT
 FROM `tlg_v2`.`propertystaging` prop
 left join `tlg_v2`.`parcel` pcl	on prop.parcelNumber = pcl.parcelNumber
 where pcl.parcelId is null;
+*/
 
 /*Insert into parcel*/
 /*
@@ -132,7 +133,7 @@ INSERT INTO `tlg_v2`.`parcel`
 `propertyId`,
 `lastUpdateDate`,
 `lastUpdateId`)
-*/
+
 select
 	mls.parcel,
 	prop.propertyId,
@@ -141,6 +142,7 @@ select
 from `tlg_v2`.`propertystaging` prop
 left join `tlg_v2`.`parcel` pcl	on prop.parcelNumber = pcl.parcelNumber
 where pcl.parcelId is null
+*/
 
 /*
 `listings_mls`.`mls`,
