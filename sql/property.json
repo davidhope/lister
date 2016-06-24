@@ -1,0 +1,80 @@
+{
+"propertyId":58
+"neighborhood":{
+	"neighborhoodId":49
+	"propertytype":{
+		"propertyTypeId":91
+		"neighborhood":[]//don't want this
+		"property":[]//don't want this
+		"name":"residential"
+		"lastUpdateDate":"2016-06-02 12:17:45"
+		"lastUpdateId":"dhope"
+	}
+	"property":{}//don't want this
+	"name":"oak park"
+	"active":88
+	"description":"test neighborhood description"
+	"lastUpdateDate":"2016-06-02 12:17:45"
+	"lastUpdateId":"dhope"
+}
+"propertytype":{
+	"propertyTypeId":91
+	"neighborhood":[]//don't want this
+	"property":[]//don't want this
+	"name":"residential"
+	"lastUpdateDate":"2016-06-02 12:17:45"
+	"lastUpdateId":"dhope"
+}
+"state":{
+	"stateId":13
+	"property":[]//don't want this
+	"name":"Illinois"
+	"abbreviation":"IL"
+	"lastUpdateDate":"2016-06-02 12:17:45"
+	"lastUpdateId":"dhope"
+}
+"zoningtype":{
+	"zoningTypeId":70
+	"property":[]//don't want this
+	"name":"Single"
+	"lastUpdateDate":"2016-06-02 12:17:45"
+	"lastUpdateId":"dhope"
+}
+"listing":[]
+"parcel":[
+	{
+		"parcelId":53
+		"property":{}//don't want this
+		"parcelNumber":"123.321.123"
+		"lastUpdateDate":"2016-06-02 12:17:45"
+		"lastUpdateId":"dhope"
+	}
+]
+"areaCode":217
+"subdivision":"oak park"
+"location":""
+"latitude":100
+"longitude":29
+"elevation":43
+"unit":""
+"city":"springfield"
+"zip":"62711"
+"county":"sang"
+"gated":27
+"floor":7
+"bed":54
+"bath":46
+"stories":67
+"garage":98
+"pool":90
+"spa":55
+"yearBuilt":4
+"schoolElementary":"test elementary"
+"schoolMiddle":"test middle"
+"schoolHigh":"test hs"
+"sqFtLiving":56
+"sqFtLot":68
+"acres":72
+"lastUpdateDate":"2016-06-02 12:17:45"
+"lastUpdateId":"dhope"
+}
