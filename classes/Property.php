@@ -70,7 +70,7 @@ Class Property extends JsonDataObject
 			$Property = new Property;
 			if($propertyId > 0){
 				$Property = $stmt->fetchObject('Property');
-				/*	single and nullable objects*/
+				/*	single and nullable objects
 				$neighborhood = new Neighborhood();
 				$Property->neighborhood =  $neighborhood->get($Property->neighborhoodId);
 				$propertytype = new Propertytype();
@@ -79,9 +79,13 @@ Class Property extends JsonDataObject
 				$Property->state =  $state->get($Property->stateId);
 				$zoningtype = new Zoningtype();
 				$Property->zoningtype =  $zoningtype->get($Property->zoningtypeId);
+				*/
+
 				/*arrays of objects*/
+				/*
 				$listing = new Listing();
 				$Property->listing =  $listing->getByProperty($Property->$propertyId);
+				*/
 			}
 			return $Property;
 		}catch(PDOException $pdoe){

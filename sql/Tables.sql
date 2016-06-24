@@ -61,11 +61,11 @@ CREATE TABLE `property` (
 	`zip` varchar(5) NOT NULL,
 	`county` varchar(15) DEFAULT NULL,
 	`gated` tinyint(1) unsigned default null,
-	`floor` smallint(3) unsigned not null,
+	`floor` smallint(3) unsigned null,
 	`bed` smallint(3) unsigned not null,
 	`bath` smallint(3) unsigned not null,
-	`stories` smallint(3) unsigned not null,
-	`garage` smallint(3) unsigned not null,
+	`stories` smallint(3) unsigned default null,
+	`garage` smallint(3) unsigned default null,
 	`pool` tinyint(1) unsigned default null,
 	`spa` tinyint(1) unsigned default null,
 	`yearBuilt` smallint(3) unsigned not null,
@@ -145,10 +145,10 @@ CREATE TABLE IF NOT EXISTS `listing` (
     `agentId` int(11) unsigned not null,
     `saleId` int(11) unsigned default null,
 	`mls` int(10) unsigned not null,
-	`title` varchar(45) not null,
-	`descriptionShort` varchar(150) not null,
+	`title` varchar(100) not null,
+	`descriptionShort` varchar(300) not null,
 	`descriptionLong` varchar(5000) default null,
-	`publicRemarks` varchar(500) default null,
+	`publicRemarks` varchar(900) default null,
 	`marketingId` smallint(3) unsigned default null,
 	`youTubeId` varchar(15) default null,
 	`shortSale` tinyint(1) unsigned default null,
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `userInfo` (
 	`firstName` varchar(45) NOT NULL,
 	`lastName` varchar(45) NOT NULL,
 	`email` varchar(150) NOT NULL,
-	`password` varchar(45) NOT NULL,
+	`password` char(64) NOT NULL,
 	`lastUpdateDate` datetime NOT NULL,
 	`lastUpdateId` varchar(45) NOT NULL,
 	PRIMARY KEY (`userId`)
@@ -256,6 +256,36 @@ insert into `state`(`name`,`abbreviation`,`lastUpdateDate`,`lastUpdateId`)
 select `name`,`abbreviation`,now(),'dhope'
 from `dhope_acadnav`.`states`;
 
+/*
+select `firstName`,`lastName`,`email`,`password`,`lastUpdateDate`,`lastUpdateId` from userinfo;
+select firstname from userinfo where `password` = unhex(sha2('password',256));
+*/
+
+INSERT INTO `tlg_v2`.`userinfo`
+(`firstName`,`lastName`,`email`,`password`,`lastUpdateDate`,`lastUpdateId`)
+VALUES
+('Dave','Hope','flav.flavor@gmail.com',password('password'),now(),'dhope');
+
+INSERT INTO `tlg_v2`.`userinfo`
+(`firstName`,`lastName`,`email`,`password`,`lastUpdateDate`,`lastUpdateId`)
+select distinct
+substring(listing_agent, 1, locate(' ',listing_agent)),
+substring(listing_agent, locate(' ',listing_agent)), 
+email
+,password('password'),now(),'dhope'
+from `tlg`.`listings` tlg
+inner join `tlg`.`listings_mls` mls
+	on tlg.mls = mls.mls;
+
+INSERT INTO `tlg_v2`.`agent`
+(`userId`,`bio`,`twitter`,`facebook`,`linkedIn`,`lastUpdateDate`,`lastUpdateId`)
+select u.userId,'', null, null, null,now(),'dhope'
+from `tlg`.`listings` tlg
+inner join `tlg`.`listings_mls` mls
+	on tlg.mls = mls.mls
+inner join `tlg_v2`.`userinfo` u
+	on u.email = mls.email
+group by u.userId;
 
 alter table `agent`
 add constraint `fk_agent_userId` FOREIGN KEY (`userId`) REFERENCES `userinfo` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -288,12 +318,13 @@ alter table `openhouse`
 add constraint `fk_openhouse_listingId` FOREIGN KEY (`listingId`) REFERENCES `listing` (`listingId`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
 
 
-/*multiple per property
+/*possibly multiple per property
 alter table `parcel`
 add constraint `fk_parcel_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `property` (`propertyId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 */
 
 /*insert into property*/
+
 
 /*insert into parcel*/
 
@@ -310,4 +341,6 @@ add constraint `fk_parcel_propertyId` FOREIGN KEY (`propertyId`) REFERENCES `pro
 /*insert into open house*/
 
 /*insert into sale*/
+
+/*insert into state*/
 

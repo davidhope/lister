@@ -54,19 +54,25 @@ Class Listing extends JsonDataObject
 			if($listingId > 0){
 				$Listing = $stmt->fetchObject('Listing');
 				/*	single and nullable objects*/
+				/*
 				$agent = new Agent();
 				$Listing->agent =  $agent->get($Listing->agentId);
+				*/
 				$property = new Property();
 				$Listing->property =  $property->get($Listing->propertyId);
+				/*
 				$sale = new Sale();
 				$Listing->sale =  $sale->get($Listing->saleId);
+				*/
 				/*arrays of objects*/
+				/*
 				$listingprice = new Listingprice();
 				$Listing->listingprice =  $listingprice->getByListing($Listing->$listingId);
 				$listingstatus = new Listingstatus();
 				$Listing->listingstatus =  $listingstatus->getByListing($Listing->$listingId);
 				$openhouse = new Openhouse();
 				$Listing->openhouse =  $openhouse->getByListing($Listing->$listingId);
+				*/
 			}
 			return $Listing;
 		}catch(PDOException $pdoe){
