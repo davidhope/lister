@@ -188,6 +188,7 @@
             };
         })
 
+
         // The FileUploadController initializes the fileupload widget and
         // provides scope methods to control the File Upload functionality:
         .controller('FileUploadController', [
