@@ -1,12 +1,14 @@
+(function () {
+
 'use strict';
 
 /* App Module */
-
 var listingApp = angular.module('listingApp', [
   'ngRoute',
   'homeControllers',
   'listingAnimations',
   'listingControllers',
+  'uploadControllers',
   'listingFilters',
   'listingServices'
 ]);
@@ -27,7 +29,12 @@ listingApp.config(['$routeProvider',
         templateUrl: 'partials/listing-detail.html',
         controller: 'ListingDetailCtrl'
       }).
+      when('/upload', {
+        templateUrl: 'Upload/angularjs.html',
+        controller: 'DemoFileUploadController'
+      }).
       otherwise({
         redirectTo: '/'
       });
   }]);
+}());
