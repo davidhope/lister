@@ -11,12 +11,21 @@
 			if(isset($_GET['id'])){
 				try{
 					$id = $_GET['id'];
-					$obj = new Listing();
+					$obj = new Listing;
 					$res = $obj->get($id);
 					ReturnJsonSuccess($res);
 				}catch(Exception $e){
 					ReturnJsonError($e->getMessage());
 				}
+			}elseif(isset($_GET['statusTypeId'])){
+						try{
+							$statusTypeId = $_GET['statusTypeId'];
+							$obj = new Listing;
+							$res = $obj->getByListingStatus($statusTypeId);
+							ReturnJsonSuccess($res);
+						}catch(Exception $e){
+							ReturnJsonError($e->getMessage());
+						}
 			}else{
 				try{
 					$obj = new Listing;
@@ -29,10 +38,27 @@
 			break;
 		case 'POST';
 			try{
-				$obj = new Listing;
+				$listing = new Listing;
 				$post = file_get_contents('php://input');
 				$obj = json_decode($post);
-				$res = $obj->save();
+
+				$listing->listingId = $obj->listingId;
+				$listing->propertyId = $obj->propertyId;
+				$listing->agentId = $obj->agentId;
+				$listing->saleId = $obj->saleId;
+				$listing->mls = $obj->mls;
+				$listing->title = $obj->title;
+				$listing->descriptionShort = $obj->descriptionShort;
+				$listing->descriptionLong = $obj->descriptionLong;
+				$listing->publicRemarks = $obj->publicRemarks;
+				$listing->marketingId = $obj->marketingId;
+				$listing->youTubeId = $obj->youTubeId;
+				$listing->shortSale = $obj->shortSale;
+				$listing->featured = $obj->featured;
+				$listing->frontPage = $obj->frontPage;
+
+				//var_dump($obj);
+				$res = $listing->save();
 				ReturnJsonSuccess($res);
 			}catch(Exception $e){
 				ReturnJsonError($e->getMessage());

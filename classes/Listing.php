@@ -27,12 +27,37 @@ Class Listing extends JsonDataObject
 	public $frontPage;
 	public $lastUpdateDate;
 	public $lastUpdateId;
+
   function __construct() {}
-	public function getAll(){		$pdo;
+
+	public function getAll(){
+		$pdo;
 		$stmt;
 		try {
 			$pdo = getPDO();
-			$stmt =  $pdo->prepare("select listingId,propertyId,agentId,saleId,mls,title,descriptionShort,descriptionLong,publicRemarks,marketingId,youTubeId,shortSale,featured,frontPage,lastUpdateDate,lastUpdateId from listing;");
+			$stmt =  $pdo->prepare("select
+																lst.listingId,
+																lst.propertyId,
+																lst.agentId,
+																lst.saleId,
+																lst.mls,
+																lst.title,
+																lst.descriptionShort,
+																lst.descriptionLong,
+																lst.publicRemarks,
+																lst.marketingId,
+																lst.youTubeId,
+																lst.shortSale,
+																lst.featured,
+																lst.frontPage,
+																lst.lastUpdateDate,
+																lst.lastUpdateId,
+																ls.statusTypeId
+																from listing lst
+																inner join listingstatus ls
+																	on lst.listingId = ls.listingId
+																inner join (select max(listingStatusId) maxLs, listingId from listingstatus group by listingId) maxLS
+																	on maxLS.listingId = ls.listingId;");
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -60,6 +85,9 @@ Class Listing extends JsonDataObject
 				*/
 				$property = new Property();
 				$Listing->property =  $property->get($Listing->propertyId);
+
+				$listingstatus = new Listingstatus();
+				$Listing->listingstatus =  $listingstatus->getByListingId($Listing->listingId);
 				/*
 				$sale = new Sale();
 				$Listing->sale =  $sale->get($Listing->saleId);
@@ -68,8 +96,6 @@ Class Listing extends JsonDataObject
 				/*
 				$listingprice = new Listingprice();
 				$Listing->listingprice =  $listingprice->getByListing($Listing->$listingId);
-				$listingstatus = new Listingstatus();
-				$Listing->listingstatus =  $listingstatus->getByListing($Listing->$listingId);
 				$openhouse = new Openhouse();
 				$Listing->openhouse =  $openhouse->getByListing($Listing->$listingId);
 				*/
@@ -97,13 +123,35 @@ Class Listing extends JsonDataObject
 			throw new Exception($e->getMessage());
 		}
 	}
-	public function getByListingstatus($listingstatusId){
+	public function getByListingStatus($statusTypeId){
 		$pdo;
 		$stmt;
 		try {
 			$pdo = getPDO();
-			$stmt =  $pdo->prepare("select column names here from listingstatus where listingstatusId  = :listingstatusId;");
-			$stmt->bindParam(':listingstatusId',$listingstatusId, PDO::PARAM_INT);
+			$stmt =  $pdo->prepare("select
+																	lst.listingId,
+																	lst.propertyId,
+																	lst.agentId,
+																	lst.saleId,
+																	lst.mls,
+																	lst.title,
+																	lst.descriptionShort,
+																	lst.descriptionLong,
+																	lst.publicRemarks,
+																	lst.marketingId,
+																	lst.youTubeId,
+																	lst.shortSale,
+																	lst.featured,
+																	lst.frontPage,
+																	lst.lastUpdateDate,
+																	lst.lastUpdateId
+															from listing lst
+															inner join listingstatus ls
+																on lst.listingId = ls.listingId
+															inner join (select max(listingStatusId) maxLs, listingId from listingstatus group by listingId) maxLS
+																on maxLS.listingId = ls.listingId
+															where ls.statusTypeId  = :statusTypeId;");
+			$stmt->bindParam(':statusTypeId',$statusTypeId, PDO::PARAM_INT);
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -150,8 +198,8 @@ Class Listing extends JsonDataObject
 											shortSale = :shortSale,
 											featured = :featured,
 											frontPage = :frontPage,
-											lastUpdateDate = :lastUpdateDate,
-											lastUpdateId = :lastUpdateId,
+											lastUpdateDate = now(),
+											lastUpdateId = :lastUpdateId
  											where listingId = :listingId;");
 					$stmt->bindParam(':listingId', $this->listingId, PDO::PARAM_INT);
 					$stmt->bindParam(':propertyId',$this->propertyId, PDO::PARAM_INT);
@@ -207,12 +255,12 @@ Class Listing extends JsonDataObject
 						$stmt->bindParam(':frontPage',$this->frontPage, PDO::PARAM_INT);
 					}
 
-					$stmt->bindParam(':lastUpdateDate',$this->lastUpdateDate, PDO::PARAM_STR);
-					$stmt->bindParam(':lastUpdateId',$this->lastUpdateId, PDO::PARAM_STR);
+					$stmt->bindParam(':lastUpdateId',$_SESSION[con_userid], PDO::PARAM_STR);
 					$stmt->execute();
 			}else{
 					$pdo = getPDO();
-				$stmt =  $pdo->prepare("insert into listing(propertyId,agentId,saleId,mls,title,descriptionShort,descriptionLong,publicRemarks,marketingId,youTubeId,shortSale,featured,frontPage,lastUpdateDate,lastUpdateId)values(:propertyId,:agentId,:saleId,:mls,:title,:descriptionShort,:descriptionLong,:publicRemarks,:marketingId,:youTubeId,:shortSale,:featured,:frontPage,:lastUpdateDate,:lastUpdateId);");
+					$stmt =  $pdo->prepare("insert into listing(propertyId,agentId,saleId,mls,title,descriptionShort,descriptionLong,publicRemarks,marketingId,youTubeId,shortSale,featured,frontPage,lastUpdateDate,lastUpdateId)
+																	values(:propertyId,:agentId,:saleId,:mls,:title,:descriptionShort,:descriptionLong,:publicRemarks,:marketingId,:youTubeId,:shortSale,:featured,:frontPage,now(),:lastUpdateId);");
 					$stmt->bindParam(':propertyId',$this->propertyId, PDO::PARAM_INT);
 					$stmt->bindParam(':agentId',$this->agentId, PDO::PARAM_INT);
 					if(is_null($this->saleId)){
@@ -266,8 +314,7 @@ Class Listing extends JsonDataObject
 						$stmt->bindParam(':frontPage',$this->frontPage, PDO::PARAM_INT);
 					}
 
-					$stmt->bindParam(':lastUpdateDate',$this->lastUpdateDate, PDO::PARAM_STR);
-					$stmt->bindParam(':lastUpdateId',$this->lastUpdateId, PDO::PARAM_STR);
+					$stmt->bindParam(':lastUpdateId',$_SESSION[con_userid], PDO::PARAM_STR);
 				$stmt->execute();
 				$this->listingId = $pdo->lastInsertId();
 			}

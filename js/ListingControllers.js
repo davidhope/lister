@@ -4,29 +4,29 @@
 
 var listingControllers = angular.module('listingControllers', []);
 var homeControllers = angular.module('homeControllers', []);
-var uploadControllers = angular.module('uploadControllers',[]);
 
 homeControllers.controller('HomeCtrl', ['$scope',
   function($scope) {}
 ]);
 
-listingControllers.controller('ListingCtrl', ['$scope', '$log', '$routeParams', 'ListingService',
-  function($scope, $log, $routeParams, ListingService) {
+listingControllers.controller('ListingCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
+  function($scope, $log, $routeParams, ListingService, StatusTypeService) {
 
     $scope.listings = ListingService.query();
     $scope.orderProp = 'address';
     $scope.statusFilter = '';
+    $scope.statusTypes = StatusTypeService.query();
 
     $scope.getByStatus = function(){
       $log.log($scope.statusFilter);
-      $scope.listings = ListingService.GetByStatus({status:$scope.statusFilter});
+      //$scope.listings = ListingService.GetByStatus({status:$scope.statusFilter});
     }
 }]);
 
-listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', 'ListingService',
-  function($scope, $log, $routeParams, ListingService) {
+listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
+  function($scope, $log, $routeParams, ListingService, StatusTypeService) {
 
-    $scope.statuses = ['For Sale', 'Sold', 'Cancelled', 'Pending', 'Rented', 'Withdrawn'];
+    $scope.statusTypes = StatusTypeService.query();
 
     //$routeParams.mls comes from app.js route for ListingDetailCtrl
     $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
@@ -62,58 +62,3 @@ listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routePar
     };
 
   }]);
-
-uploadControllers.controller('DemoFileUploadController', ['$scope', '$http', '$filter', '$window',
-    function ($scope, $http) {
-
-        var isOnGitHub = false, url = 'upload/server/php/';
-
-        $scope.options = {
-            url: url
-        };
-
-        $scope.loadingFiles = true;
-
-        $http.get(url)
-            .then(
-                function (response) {
-                    $scope.loadingFiles = false;
-                    $scope.queue = response.data.files || [];
-                },
-                function () {
-                    $scope.loadingFiles = false;
-                }
-            );
-    }
-]);
-
-uploadControllers.controller('FileDestroyController', ['$scope', '$http',
-    function ($scope, $http) {
-        var file = $scope.file,
-            state;
-        if (file.url) {
-            file.$state = function () {
-                return state;
-            };
-            file.$destroy = function () {
-                state = 'pending';
-                return $http({
-                    url: file.deleteUrl,
-                    method: file.deleteType
-                }).then(
-                    function () {
-                        state = 'resolved';
-                        $scope.clear(file);
-                    },
-                    function () {
-                        state = 'rejected';
-                    }
-                );
-            };
-        } else if (!file.$cancel && !file._index) {
-            file.$cancel = function () {
-                $scope.clear(file);
-            };
-        }
-    }
-]);

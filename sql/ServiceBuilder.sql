@@ -1,5 +1,5 @@
 set @schema_name = 'tlg_v2';
-set @classname = 'Sale';
+set @classname = 'StatusType';
 set @table_name = lower(@classname);
 use `tlg_v2`;
 
@@ -78,6 +78,6 @@ union all
 select "?>"
 
 /* Output to file work*/
-INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\services\\Property.php";
+INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\services\\StatusType.php";
 /* Output to file home
 INTO OUTFILE "H:\\Projects\\lister\\services\\Sale.php";*/

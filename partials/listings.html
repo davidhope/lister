@@ -13,23 +13,13 @@
       Status:
       <!-- Client Filter-->
       <select ng-model="statusFilter">
-      <!-- Service Filter -->
-      <!--<select ng-change="getByStatus()">-->
-        <option value="">All</option>
-        <option value="Sold">Sold</option>
-        <option value="For Sale">For Sale</option>
-        <option value="Cancelled">Cancelled</option>
-        <option value="Rented">Rented</option>
-        <option value="Withdrawn">Withdrawn</option>
-        <option value="Inactive">Inactive</option>
+        <option ng-repeat="st in statusTypes" value="{{st.statusTypeId}}">{{st.name}}</option>
       </select>
     </div>
     <div class="col-md-10">
       <!--Body content-->
-        <!-- filter on server -->
-        <!--<li ng-repeat="listing in listings | filter:query | filter:{status:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing">-->
         <!-- filter on client -->
-        <div ng-repeat="listing in listings | filter:query | orderBy:orderProp" class="thumbnail mls-listing">
+        <div ng-repeat="listing in listings | filter:query | filter: {statusTypeId:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing"><!-- -->
           <!--<a href="#/listings/{{listing.listingId}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>-->
           <a href="#/listings/{{listing.listingId}}">{{listing.title}}</a>
           <p>{{listing.publicRemarks}}</p>

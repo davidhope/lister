@@ -16,21 +16,21 @@
       <div class="panel-body">
         <div class="form-group">
           <label class="col-sm-2 control-label" for="txtAddress">Address: </label>
-          <div class="col-sm-10"><input type="text" class="form-control" required id="txtAddress" name="txtAddress" ng-model="listing.address" /></div>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtAddress" name="txtAddress" ng-model="listing.property.address" /></div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="txtParcel">Parcel: </label>
-          <div class="col-sm-10"><input type="text" class="form-control" required id="txtParcel" name="txtParcel" ng-model="listing.parcel" readonly /></div>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtParcel" name="txtParcel" ng-model="listing.property.parcelNumber" readonly /></div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="txtPrice">Price: </label>
-          <div class="col-sm-10"><input type="text" class="form-control" required id="txtPrice" name="txtPrice" ng-model="listing.price" /></div>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtPrice" name="txtPrice" ng-model="listing.listingprice.price" /></div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="ddlStatus">Status: </label>
           <div class="col-sm-10">
-            <select id="ddlStatus" ng-model="listing.status">
-              <option ng-repeat="status in statuses" value="{{status}}">{{status}}</option>
+            <select id="ddlStatus" ng-model="listing.listingstatus.statusTypeId">
+              <option ng-repeat="st in statusTypes" value="{{st.statusTypeId}}">{{st.name}}</option>
             </select>
           </div>
         </div>
@@ -38,13 +38,13 @@
         <div class="form-group">
           <label class="col-sm-2 control-label" for="txtDescriptionShort">Description (abbreviated): </label>
           <div class="col-sm-10">
-            <textarea id="txtDescriptionShort" style="min-width: 100%" rows="5" ng-model="listing.description_short"></textarea>
+            <textarea id="txtDescriptionShort" style="min-width: 100%" rows="5" ng-model="listing.descriptionShort"></textarea>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="txtDescriptionLong">Description (detailed): </label>
           <div class="col-sm-10">
-            <textarea name="txtDescriptionLong" style="min-width: 100%" rows="5" ng-model="listing.description_long"></textarea>
+            <textarea name="txtDescriptionLong" style="min-width: 100%" rows="5" ng-model="listing.descriptionLong"></textarea>
           </div>
         </div>
       </div><!-- /panel-body -->
@@ -53,7 +53,7 @@
 </form>
 
 
-<span>{{listing.price}}</span>
+<span>{{listing.listingprice.price}}</span>
 <span ng-click="increasePrice()">(+)</span>
 <span ng-click="decreasePrice()">(-)</span>
 <!--
@@ -63,31 +63,34 @@
   </li>
 </ul>
 -->
-<p>Amenities</p>
-<ul class="specs">
-  <li ng-repeat="amenity in listing.amenities">
-    <dl>
-      <dt>{{amenity.name}}</dt>
-      <dd>{{amenity.description}}</dd>
-    </dl>
-  </li>
-</ul>
+<p>Property Features</p>
+<dl>
+  <dt>Beds</dt><dd>{{listing.property.bed}}</dd>
+  <dt>Area Code</dt><dd>{{listing.property.areaCode}}</dd>
+  <dt>Subdivision</dt><dd>{{listing.property.subdivision}}</dd>
+  <dt>Gated</dt><dd>{{listing.property.gated}}</dd>
+  <dt>Baths</dt><dd>{{listing.property.bath}}</dd>
+  <dt>Stories</dt><dd>{{listing.property.stories}}</dd>
+  <dt>Garage</dt><dd>{{listing.property.garage}}</dd>
+  <dt>Pool</dt><dd>{{listing.property.pool | checkmark}}</dd>
+  <dt>Spa</dt><dd>{{listing.property.spa | checkmark}}</dd>
+  <dt>Year Built</dt><dd>{{listing.property.yearBuilt}}</dd>
+  <dt>Elementary</dt><dd>{{listing.property.schoolElementary}}</dd>
+  <dt>Middle</dt><dd>{{listing.property.schoolMiddle}}</dd>
+  <dt>High</dt><dd>{{listing.property.schoolHigh}}</dd>
+  <dt>SqFt Living</dt><dd>{{listing.property.sqFtLiving}}</dd>
+  <dt>SqFt Lot</dt><dd>{{listing.property.sqFtLot}}</dd>
+  <dt>Acres</dt><dd>{{listing.property.acres}}</dd>
+</dl>
 
 <p>Options</p>
-<ul>
-  <li>
-    <dl>
-      <dt>Featured</dt>
-      <dd>{{listing.featured | checkmark}}</dd>
-    </dl>
-  </li>
-  <li>
-    <dl>
-      <dt>Reduced</dt>
-      <dd>{{listing.reduced | checkmark}}</dd>
-    </dl>
-  </li>
-</ul>
+
+<dl>
+  <dt>Featured</dt>
+  <dd>{{listing.featured | checkmark}}</dd>
+  <dt>Reduced</dt>
+  <dd>{{listing.reduced | checkmark}}</dd>
+</dl>
 
 <button ng-click="save(listing)">submit</button>
 <button ng-click="delete(listing)">delete</button>

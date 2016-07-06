@@ -3,6 +3,7 @@
 /* Services */
 
 var listingServices = angular.module('listingServices', ['ngResource']);
+var statusTypeServices = angular.module('statusTypeServices', ['ngResource']);
 
 listingServices.factory('ListingService', ['$resource',
 
@@ -14,5 +15,11 @@ listingServices.factory('ListingService', ['$resource',
         'GetByStatus': {method: 'GET',isArray: true}
     });
 
+  }
+]);
+
+statusTypeServices.factory('StatusTypeService', ['$resource',
+  function($resource){
+    return $resource('services/statustype/:id',null,{});
   }
 ]);
