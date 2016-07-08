@@ -9,7 +9,22 @@ Class ListingStatus extends JsonDataObject
 	/*rest of unkeyed columns*/
 	public $lastUpdateDate;
 	public $lastUpdateId;
-  function __construct() {}
+
+  function __construct($obj = NULL) {
+		if(isset($obj)){
+			return $this->buildFromObject($obj);
+		}else{
+			return $this;
+		}
+	}
+
+	public function buildFromObject($obj){
+		//$instance = new ListingStatus;
+		$instance = objectToObject($obj,'ListingStatus');
+
+    return $instance;
+	}
+
 	public function getAll(){		$pdo;
 		$stmt;
 		try {
@@ -59,7 +74,7 @@ Class ListingStatus extends JsonDataObject
 			$stmt->execute();
 			$ListingStatus = new ListingStatus;
 			$ListingStatus = $stmt->fetchObject('ListingStatus');
-      
+
 			return $ListingStatus;
 		}catch(PDOException $pdoe){
 			throw new Exception($pdoe->getMessage());
@@ -79,7 +94,7 @@ Class ListingStatus extends JsonDataObject
 											listingId = :listingId,
 											statusTypeId = :statusTypeId,
 											lastUpdateDate = :lastUpdateDate,
-											lastUpdateId = :lastUpdateId,
+											lastUpdateId = :lastUpdateId
  											where listingStatusId = :listingStatusId;");
 					$stmt->bindParam(':listingStatusId', $this->listingStatusId, PDO::PARAM_INT);
 					$stmt->bindParam(':listingId',$this->listingId, PDO::PARAM_INT);
@@ -89,7 +104,7 @@ Class ListingStatus extends JsonDataObject
 					$stmt->execute();
 			}else{
 					$pdo = getPDO();
-				$stmt =  $pdo->prepare("insert into listingstatus(listingId,statusTypeId,lastUpdateDate,lastUpdateId)values(:listingId,:statusTypeId,:lastUpdateDate,:lastUpdateId);");
+		      $stmt =  $pdo->prepare("insert into listingstatus(listingId,statusTypeId,lastUpdateDate,lastUpdateId)values(:listingId,:statusTypeId,:lastUpdateDate,:lastUpdateId);");
 					$stmt->bindParam(':listingId',$this->listingId, PDO::PARAM_INT);
 					$stmt->bindParam(':statusTypeId',$this->statusTypeId, PDO::PARAM_INT);
 					$stmt->bindParam(':lastUpdateDate',$this->lastUpdateDate, PDO::PARAM_STR);
@@ -100,7 +115,7 @@ Class ListingStatus extends JsonDataObject
 			if($stmt->rowCount() > 0){
 				return $this->get($this->listingStatusId);
 			}else{
-				throw new Exception(($this->listingStatusId > 0 ? "Update" : "Insert") . "  failed.");
+				return (($this->listingStatusId > 0 ? "Update" : "Insert") . "  did not result in any changes.");
 			}
 		}catch(PDOException $pdoe){
 			throw new Exception($pdoe->getMessage());

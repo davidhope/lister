@@ -3,7 +3,7 @@
 
 	session_start();
 
-    use Mailgun\Mailgun;
+  use Mailgun\Mailgun;
 
 	function ReturnJsonTable($json) {
 		header('HTTP/1.1 200 OK', true, 200);
@@ -190,4 +190,16 @@
 
             return $states[$id];
     }
+
+		//solution found at http://stackoverflow.com/questions/3243900/convert-cast-an-stdclass-object-to-another-class/3243949
+		//method used to cast stdClass objects that come in from phpInput to native class
+
+		function objectToObject($instance, $className) {
+		    return unserialize(sprintf(
+		        'O:%d:"%s"%s',
+		        strlen($className),
+		        $className,
+		        strstr(strstr(serialize($instance), '"'), ':')
+		    ));
+		}
 ?>

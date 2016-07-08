@@ -31,7 +31,15 @@ listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routePar
     //$routeParams.mls comes from app.js route for ListingDetailCtrl
     $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
       //$scope.mainImageUrl = listing.images[0];
+      //$scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
+      $scope.currentPrice = $scope.listing.listingprice.reduce(function(prev, current) {
+                                return (prev.listingPriceId > current.listingPriceId) ? prev : current
+                            })
+
+      $log.log($scope.currentPrice);
     });
+
+
 
     $scope.save = function(listing){
       $log.log(listing);
