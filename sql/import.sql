@@ -105,3 +105,31 @@ select l.listingId,st.statusTypeId,now(),'dhope'
 from `tlg_v2`.`listing` l
 inner join `tlg`.`listings` tlg on tlg.mls = l.mls
 inner join `tlg_v2`.`statustype` st on st.name = tlg.status;
+
+
+/*insert original listing prices */
+INSERT INTO `tlg_v2`.`listingprice`(`listingId`,`price`,`lastUpdateDate`,`lastUpdateId`)
+select l.listingId,tlg.price_original,now(),'dhope'
+from `tlg_v2`.`listing` l
+inner join `tlg`.`listings` tlg on tlg.mls = l.mls
+where tlg.price_original is not null;
+
+/*insert previous listing prices */
+INSERT INTO `tlg_v2`.`listingprice`(`listingId`,`price`,`lastUpdateDate`,`lastUpdateId`)
+select l.listingId,tlg.price_previous,now(),'dhope'
+from `tlg_v2`.`listing` l
+inner join `tlg`.`listings` tlg on tlg.mls = l.mls
+where tlg.price_previous is not null
+and tlg.price_original != tlg.price_previous;
+
+/*insert previous listing prices */
+INSERT INTO `tlg_v2`.`listingprice`(`listingId`,`price`,`lastUpdateDate`,`lastUpdateId`)
+select l.listingId,tlg.price,now(),'dhope'
+from `tlg_v2`.`listing` l
+inner join `tlg`.`listings` tlg on tlg.mls = l.mls
+where tlg.price is not null
+and tlg.price != tlg.price_original
+and tlg.price != tlg.price_previous;
+
+delete from listingprice where listingpriceid > 0;
+

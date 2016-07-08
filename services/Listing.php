@@ -38,10 +38,19 @@
 			break;
 		case 'POST';
 			try{
-				$listing = new Listing;
+				//$listing = new Listing;
 				$post = file_get_contents('php://input');
 				$obj = json_decode($post);
 
+				$listing = new Listing;
+				$listing = $listing->buildFromObject($obj);
+				
+				/*
+				$listing = objectToObject($obj,'Listing');
+				$listing->property = objectToObject($listing->property,'Property');
+				$listing->listingstatus = objectToObject($listing->listingstatus,'ListingStatus');
+				*/
+				/*
 				$listing->listingId = $obj->listingId;
 				$listing->propertyId = $obj->propertyId;
 				$listing->agentId = $obj->agentId;
@@ -56,8 +65,9 @@
 				$listing->shortSale = $obj->shortSale;
 				$listing->featured = $obj->featured;
 				$listing->frontPage = $obj->frontPage;
+				*/
 
-				//var_dump($obj);
+				//var_dump($listing);
 				$res = $listing->save();
 				ReturnJsonSuccess($res);
 			}catch(Exception $e){

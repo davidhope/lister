@@ -1,7 +1,7 @@
 /* remove trailing comma in column list in save/update */
 
 set @schema_name = 'tlg_v2';
-set @classname = 'StatusType';
+set @classname = 'ListingPrice';
 set @table_name = lower(@classname);
 use `tlg_v2`;
 
@@ -473,6 +473,6 @@ union all
 select "?>"
 
 /* Output to file work*/
-INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\classes\\StatusType.php";
+INTO OUTFILE "C:\\Users\\dhope\\Documents\\Projects\\lister\\classes\\ListingPrice.php";
 /* Output to file home
 INTO OUTFILE "H:\\Projects\\lister\\classes\\Property.php";*/

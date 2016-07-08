@@ -28,7 +28,20 @@ Class Listing extends JsonDataObject
 	public $lastUpdateDate;
 	public $lastUpdateId;
 
-  function __construct() {}
+  function __construct($obj = NULL) {
+		if(isset($obj)){
+			$this->buildFromObject($obj);
+		}
+	}
+
+	public function buildFromObject($obj){
+
+		$instance = objectToObject($obj,'Listing');
+		$instance->property = objectToObject($obj->property,'Property');
+		$instance->listingstatus = objectToObject($obj->listingstatus,'ListingStatus');
+
+		return $instance;
+	}
 
 	public function getAll(){
 		$pdo;
@@ -75,7 +88,7 @@ Class Listing extends JsonDataObject
 			$stmt =  $pdo->prepare("select listingId,propertyId,agentId,saleId,mls,title,descriptionShort,descriptionLong,publicRemarks,marketingId,youTubeId,shortSale,featured,frontPage,lastUpdateDate,lastUpdateId from listing where listingId = :listingId;");
 			$stmt->bindParam(':listingId',$listingId, PDO::PARAM_INT);
 			$stmt->execute();
-			$Listing = new Listing;
+			$Listing = new Listing();
 			if($listingId > 0){
 				$Listing = $stmt->fetchObject('Listing');
 				/*	single and nullable objects*/
@@ -83,19 +96,17 @@ Class Listing extends JsonDataObject
 				$agent = new Agent();
 				$Listing->agent =  $agent->get($Listing->agentId);
 				*/
-				$property = new Property();
+				$property = new Property(null);
 				$Listing->property =  $property->get($Listing->propertyId);
 
-				$listingstatus = new Listingstatus();
+				$listingstatus = new Listingstatus(null);
 				$Listing->listingstatus =  $listingstatus->getByListingId($Listing->listingId);
+				$listingprice = new Listingprice;
+				$Listing->listingprice =  $listingprice->getByListingId($Listing->listingId);
 				/*
 				$sale = new Sale();
 				$Listing->sale =  $sale->get($Listing->saleId);
-				*/
-				/*arrays of objects*/
-				/*
-				$listingprice = new Listingprice();
-				$Listing->listingprice =  $listingprice->getByListing($Listing->$listingId);
+
 				$openhouse = new Openhouse();
 				$Listing->openhouse =  $openhouse->getByListing($Listing->$listingId);
 				*/
@@ -257,6 +268,21 @@ Class Listing extends JsonDataObject
 
 					$stmt->bindParam(':lastUpdateId',$_SESSION[con_userid], PDO::PARAM_STR);
 					$stmt->execute();
+
+					try {
+						$this->property = $this->property->save();
+					}catch(Exception $e){
+						throw new Exception($e->getMessage());
+					}
+
+					try {
+						$this->listingstatus->listingStatusId = -1;
+						$this->listingstatus = $this->listingstatus->save();
+					}catch(Exception $e){
+						throw new Exception($e->getMessage());
+					}
+
+
 			}else{
 					$pdo = getPDO();
 					$stmt =  $pdo->prepare("insert into listing(propertyId,agentId,saleId,mls,title,descriptionShort,descriptionLong,publicRemarks,marketingId,youTubeId,shortSale,featured,frontPage,lastUpdateDate,lastUpdateId)
@@ -318,11 +344,13 @@ Class Listing extends JsonDataObject
 				$stmt->execute();
 				$this->listingId = $pdo->lastInsertId();
 			}
+
 			if($stmt->rowCount() > 0){
 				return $this->get($this->listingId);
 			}else{
-				throw new Exception(($this->listingId > 0 ? "Update" : "Insert") . "  failed.");
+				return (($this->listingId > 0 ? "Update" : "Insert") . "  did not result in any changes.");
 			}
+
 		}catch(PDOException $pdoe){
 			throw new Exception($pdoe->getMessage());
 		}catch(Exception $e){

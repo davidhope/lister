@@ -44,7 +44,21 @@ Class Property extends JsonDataObject
 	public $parcelNumber;
 	public $lastUpdateDate;
 	public $lastUpdateId;
-  function __construct() {}
+
+	function __construct($obj = NULL) {
+		if(isset($obj)){
+			return $this->buildFromObject($obj);
+		}else{
+			return $this;
+		}
+	}
+
+	public function buildFromObject($obj){
+		//$instance = new Property();
+		$instance = objectToObject($obj,'Property');
+		return $instance;
+	}
+
 	public function getAll(){		$pdo;
 		$stmt;
 		try {
@@ -150,7 +164,7 @@ Class Property extends JsonDataObject
 											acres = :acres,
 											parcelNumber = :parcelNumber,
 											lastUpdateDate = :lastUpdateDate,
-											lastUpdateId = :lastUpdateId,
+											lastUpdateId = :lastUpdateId
  											where propertyId = :propertyId;");
 					$stmt->bindParam(':propertyId', $this->propertyId, PDO::PARAM_INT);
 					if(is_null($this->propertyTypeId)){
@@ -439,7 +453,7 @@ Class Property extends JsonDataObject
 			if($stmt->rowCount() > 0){
 				return $this->get($this->propertyId);
 			}else{
-				throw new Exception(($this->propertyId > 0 ? "Update" : "Insert") . "  failed.");
+				return (($this->propertyId > 0 ? "Update" : "Insert") . "  did not result in any changes.");
 			}
 		}catch(PDOException $pdoe){
 			throw new Exception($pdoe->getMessage());
