@@ -70,7 +70,8 @@ Class Listing extends JsonDataObject
 																inner join listingstatus ls
 																	on lst.listingId = ls.listingId
 																inner join (select max(listingStatusId) maxLs, listingId from listingstatus group by listingId) maxLS
-																	on maxLS.listingId = ls.listingId;");
+																	on maxLS.listingId = ls.listingId
+																	and maxLs.maxLs = ls.listingStatusId;");
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -85,7 +86,15 @@ Class Listing extends JsonDataObject
 		$stmt;
 		try {
 			$pdo = getPDO();
-			$stmt =  $pdo->prepare("select listingId,propertyId,agentId,saleId,mls,title,descriptionShort,descriptionLong,publicRemarks,marketingId,youTubeId,shortSale,featured,frontPage,lastUpdateDate,lastUpdateId from listing where listingId = :listingId;");
+			$stmt =  $pdo->prepare("select
+															lst.listingId,lst.propertyId,lst.agentId,lst.saleId,lst.mls,lst.title,lst.descriptionShort,lst.descriptionLong,lst.publicRemarks,lst.marketingId,lst.youTubeId,lst.shortSale,lst.featured,lst.frontPage,lst.lastUpdateDate,lst.lastUpdateId 
+															from listing lst
+															inner join listingstatus ls
+																on lst.listingId = ls.listingId
+															inner join (select max(listingStatusId) maxLs, listingId from listingstatus group by listingId) maxLS
+																on maxLS.listingId = ls.listingId
+																and maxLs.maxLs = ls.listingStatusId
+															where lst.listingId = :listingId;");
 			$stmt->bindParam(':listingId',$listingId, PDO::PARAM_INT);
 			$stmt->execute();
 			$Listing = new Listing();

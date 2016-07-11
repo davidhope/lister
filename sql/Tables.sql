@@ -271,7 +271,7 @@ INSERT INTO `tlg_v2`.`userinfo`
 select distinct
 substring(listing_agent, 1, locate(' ',listing_agent)),
 substring(listing_agent, locate(' ',listing_agent)), 
-email
+coalesce(email,'')
 ,password('password'),now(),'dhope'
 from `tlg`.`listings` tlg
 inner join `tlg`.`listings_mls` mls

@@ -34,10 +34,10 @@ SELECT
         else 0
 	end,
     CAST(mls.`floor` as unsigned),
-    CAST(mls.`bed` as unsigned),
-    CAST(mls.`bath` as unsigned),
-    CAST(mls.`stories` as unsigned),
-    CAST(mls.`garage` as unsigned),
+    CAST(coalesce(mls.`bed`,0) as unsigned),
+    CAST(coalesce(mls.`bath`,0) as unsigned),
+    CAST(coalesce(mls.`stories`,0) as unsigned),
+    CAST(coalesce(mls.`garage`,0) as unsigned),
     case mls.`pool`
 		when 'N' then 0
         else 1
@@ -46,14 +46,14 @@ SELECT
 		when 'N' then 0
         else 1
 	end,
-    CAST(mls.`year_built` as unsigned),
+    CAST(coalesce(mls.`year_built`,0) as unsigned),
     mls.`school_elementary`,
     mls.`school_middle`,
     mls.`school_high`,
-    CAST(mls.`sqft_live` as  decimal(13,2)),
-    CAST(mls.`sqft_lot` as  decimal(13,2)),
-    CAST(mls.`acres` as  decimal(13,2)),
-    mls.parcel,
+    CAST(coalesce(mls.`sqft_live`,0.0) as  decimal(13,2)),
+    CAST(coalesce(mls.`sqft_lot`,0.0) as  decimal(13,2)),
+    CAST(coalesce(mls.`acres`,0.0) as  decimal(13,2)),
+    coalesce(mls.parcel,''),
     now(),
     'dhope'
 from `tlg`.`listings_mls` mls
@@ -131,5 +131,4 @@ where tlg.price is not null
 and tlg.price != tlg.price_original
 and tlg.price != tlg.price_previous;
 
-delete from listingprice where listingpriceid > 0;
 

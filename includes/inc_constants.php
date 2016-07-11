@@ -1,13 +1,13 @@
 <?php
-  $devBranch = 'C:\Users\dhope\Documents\Projects\lister';
-  //$devBranch = 'H:\Projects\lister';
+  //$devBranch = 'C:\Users\dhope\Documents\Projects\lister';
+  $devBranch = 'H:\Projects\lister';
 
 	define("con_userid", "userid");
   define("con_userName", "userName");
 	define("con_timeout", "timeout");
 	define("con_timeoutlength", 1200);
 
-  if (strrpos($_SERVER["SERVER_SOFTWARE"],"Microsoft") === false){
+  if (strrpos($_SERVER["SERVER_SOFTWARE"],"Microsoft") === false && 1==0){
     /*Production */
 
     define("con_dbConn", "mysql:host=localhost;dbname=tlg");
@@ -23,7 +23,6 @@
 
   }else{
     /*Development*/
-
     define("con_dbConn", "mysql:host=localhost;dbname=tlg_v2");
     define("con_dbUser","root");
     define("con_dbPass","ftcnj25");
