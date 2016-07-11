@@ -72,6 +72,30 @@ Class ListingStatus extends JsonDataObject
                               where ls.listingId = :listingId;");
 			$stmt->bindParam(':listingId',$listingId, PDO::PARAM_INT);
 			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			return $result;
+		}catch(PDOException $pdoe){
+			throw new Exception($pdoe->getMessage());
+		}catch(Exception $e){
+			throw new Exception($e->getMessage());
+		}
+	}
+
+	public function getCurrentStatusByListingId($listingId){
+		$pdo;
+		$stmt;
+		try {
+			$pdo = getPDO();
+			$stmt =  $pdo->prepare("select
+                              ls.listingStatusId,ls.listingId,ls.statusTypeId,ls.lastUpdateDate,ls.lastUpdateId
+                              from listingstatus ls
+															inner join (select max(listingStatusId) maxLs, listingId from listingstatus group by listingId) maxLS
+																on maxLS.listingId = ls.listingId
+																and maxLS.maxLs = ls.listingStatusId
+                              where ls.listingId = :listingId;");
+			$stmt->bindParam(':listingId',$listingId, PDO::PARAM_INT);
+			$stmt->execute();
 			$ListingStatus = new ListingStatus;
 			$ListingStatus = $stmt->fetchObject('ListingStatus');
 
@@ -81,6 +105,10 @@ Class ListingStatus extends JsonDataObject
 		}catch(Exception $e){
 			throw new Exception($e->getMessage());
 		}
+	}
+
+	public function hasNewStatus($listingId, $statusTypeId){
+		return $this->getCurrentStatusByListingId->statusTypeId <> $statusTypeId;
 	}
 
 	public function save(){
@@ -103,20 +131,20 @@ Class ListingStatus extends JsonDataObject
 					$stmt->bindParam(':lastUpdateId',$this->lastUpdateId, PDO::PARAM_STR);
 					$stmt->execute();
 			}else{
-					$pdo = getPDO();
-		      $stmt =  $pdo->prepare("insert into listingstatus(listingId,statusTypeId,lastUpdateDate,lastUpdateId)values(:listingId,:statusTypeId,:lastUpdateDate,:lastUpdateId);");
-					$stmt->bindParam(':listingId',$this->listingId, PDO::PARAM_INT);
-					$stmt->bindParam(':statusTypeId',$this->statusTypeId, PDO::PARAM_INT);
-					$stmt->bindParam(':lastUpdateDate',$this->lastUpdateDate, PDO::PARAM_STR);
-					$stmt->bindParam(':lastUpdateId',$this->lastUpdateId, PDO::PARAM_STR);
-				$stmt->execute();
-				$this->listingStatusId = $pdo->lastInsertId();
+					if($this->hasNewStatus($this->listingId, $this->statusTypeId)){
+						$pdo = getPDO();
+			      $stmt =  $pdo->prepare("insert into listingstatus(listingId,statusTypeId,lastUpdateDate,lastUpdateId)values(:listingId,:statusTypeId,:lastUpdateDate,:lastUpdateId);");
+						$stmt->bindParam(':listingId',$this->listingId, PDO::PARAM_INT);
+						$stmt->bindParam(':statusTypeId',$this->statusTypeId, PDO::PARAM_INT);
+						$stmt->bindParam(':lastUpdateDate',$this->lastUpdateDate, PDO::PARAM_STR);
+						$stmt->bindParam(':lastUpdateId',$this->lastUpdateId, PDO::PARAM_STR);
+						$stmt->execute();
+						$this->listingStatusId = $pdo->lastInsertId();
+					}
 			}
-			if($stmt->rowCount() > 0){
-				return $this->get($this->listingStatusId);
-			}else{
-				return (($this->listingStatusId > 0 ? "Update" : "Insert") . "  did not result in any changes.");
-			}
+
+			return $this->get($this->listingStatusId);
+
 		}catch(PDOException $pdoe){
 			throw new Exception($pdoe->getMessage());
 		}catch(Exception $e){

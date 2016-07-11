@@ -36,6 +36,10 @@ listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routePar
                                 return (prev.listingPriceId > current.listingPriceId) ? prev : current
                             })
 
+      $scope.currentStatus = $scope.listing.listingstatus.reduce(function(prev, current) {
+                                return (prev.listingStatusId > current.listingStatusId) ? prev : current
+                            })
+
       $log.log($scope.currentPrice);
     });
 
