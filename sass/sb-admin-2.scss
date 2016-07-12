@@ -1,5 +1,5 @@
-@import "variables.less";
-@import "mixins.less";
+@import "variables.scss";
+@import "mixins.scss";
 
 // Global Styles
 
@@ -271,7 +271,7 @@ table.dataTable thead .sorting:after {
     color: rgba(50,50,50,.5);
 }
 
-// Circle Buttons 
+// Circle Buttons
 
 .btn-circle {
     width: 30px;
