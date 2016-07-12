@@ -1,6 +1,6 @@
 <?php
-  //$devBranch = 'C:\Users\dhope\Documents\Projects\lister';
-  $devBranch = 'H:\Projects\lister';
+  $devBranch = 'C:\Apache24\htdocs\lister';
+  //$devBranch = 'H:\Projects\lister';
 
 	define("con_userid", "userid");
   define("con_userName", "userName");
