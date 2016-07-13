@@ -117,16 +117,16 @@
         <h3 class="panel-title">Residence</h3>
       </div>
       <div class="panel-body">
-        <dl class="toc">
-          <dt>Beds</dt><dd>{{listing.property.bed}}</dd>
-          <dt>Baths</dt><dd>{{listing.property.bath}}</dd>
-          <dt>Stories</dt><dd>{{listing.property.stories}}</dd>
-          <dt>Garage</dt><dd>{{listing.property.garage}}</dd>
-          <dt>Pool</dt><dd>{{listing.property.pool | checkmark}}</dd>
-          <dt>Spa</dt><dd>{{listing.property.spa | checkmark}}</dd>
-          <dt>Year Built</dt><dd>{{listing.property.yearBuilt}}</dd>
-          <dt>SqFt Living</dt><dd>{{listing.property.sqFtLiving}}</dd>
-        </dl>
+        <div class="toc">
+          <div><strong>Beds</strong><strong>{{listing.property.bed}}</strong></div>
+          <div><strong>Baths</strong><strong>{{listing.property.bath}}</strong></div>
+          <div><strong>Stories</strong><strong>{{listing.property.stories}}</strong></div>
+          <div><strong>Garage</strong><strong>{{listing.property.garage}}</strong></div>
+          <div><strong>Pool</strong><strong>{{listing.property.pool | checkmark}}</strong></div>
+          <div><strong>Spa</strong><strong>{{listing.property.spa | checkmark}}</strong></div>
+          <div><strong>Year Built</strong><strong>{{listing.property.yearBuilt}}</strong></div>
+          <div><strong>SqFt Living</strong><strong>{{listing.property.sqFtLiving}}</strong></div>
+        </div>
 
       </div>
     </div>
@@ -137,10 +137,10 @@
         <h3 class="panel-title">Land</h3>
       </div>
       <div class="panel-body">
-        <dl class="toc">
-          <dt>SqFt Lot</dt><dd>{{listing.property.sqFtLot}}</dd>
-          <dt>Acres</dt><dd>{{listing.property.acres}}</dd>
-        </dl>
+        <div class="toc">
+          <div><strong>SqFt Lot</strong><strong>{{listing.property.sqFtLot}}</strong></div>
+          <div><strong>Acres</strong><strong>{{listing.property.acres}}</strong></div>
+        </div>
 
       </div>
     </div>
@@ -151,13 +151,13 @@
         <h3 class="panel-title">Area</h3>
       </div>
       <div class="panel-body">
-        <dl class="toc">
-          <dt>Area Code</dt><dd>{{listing.property.areaCode}}</dd>
-          <dt>Subdivision</dt><dd>{{listing.property.subdivision}}</dd>
-          <dt>Gated</dt><dd>{{listing.property.gated | checkmark}}</dd>
-          <dt>Elementary</dt><dd>{{listing.property.schoolElementary}}</dd>
-          <dt>Middle</dt><dd>{{listing.property.schoolMiddle}}</dd>
-          <dt>High</dt><dd>{{listing.property.schoolHigh}}</dd>
+        <div class="toc">
+          <div><strong>Area Code</strong><strong class="pull-right">{{listing.property.areaCode}}</strong></div>
+          <div><strong>Subdivision</strong><strong>{{listing.property.subdivision}}</strong></div>
+          <div><strong>Gated</strong><strong>{{listing.property.gated | checkmark}}</strong></div>
+          <div><strong>Elementary</strong><strong>{{listing.property.schoolElementary}}</strong></div>
+          <div><strong>Mistrongle</strong><strong>{{listing.property.schoolMistrongle}}</strong></div>
+          <div><strong>High</strong><strong>{{listing.property.schoolHigh}}</strong></div>
         </dl>
       </div>
     </div>

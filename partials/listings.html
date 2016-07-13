@@ -24,6 +24,7 @@
         <div class="panel panel-default" ng-repeat="listing in listings | filter:query | filter: {statusTypeId:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing">
           <div class="panel-heading">
               <a href="#/listings/{{listing.listingId}}">{{listing.mls}} - {{listing.address}}</a>
+              <span class="pull-right">{{listing.price | currency}}</span>
           </div>
           <!-- /.panel-heading -->
           <div class="panel-body">
