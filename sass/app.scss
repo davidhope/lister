@@ -1,5 +1,4 @@
-/* app css stylesheet */
-
+@import "variables.scss";
 body {
   padding-top: 20px;
 }
@@ -55,7 +54,7 @@ ul.listing-thumbs {
 }
 
 ul.listing-thumbs li {
-  border: 1px solid black;
+  border: 1px solid $gray-darker;
   display: inline-block;
   margin: 1em;
   background-color: white;
@@ -95,5 +94,10 @@ ul.specs dt {
 }
 
 h1 {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid $brand-primary;
+}
+
+dl.toc{
+  dt{float:left;clear:left;border-bottom:dotted 1px $brand-primary}
+  dd{float:right;}
 }

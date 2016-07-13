@@ -65,13 +65,16 @@ Class Listing extends JsonDataObject
 																lst.frontPage,
 																lst.lastUpdateDate,
 																lst.lastUpdateId,
-																ls.statusTypeId
+																ls.statusTypeId,
+																p.address
 																from listing lst
 																inner join listingstatus ls
 																	on lst.listingId = ls.listingId
 																inner join (select max(listingStatusId) maxLs, listingId from listingstatus group by listingId) maxLS
 																	on maxLS.listingId = ls.listingId
-																	and maxLs.maxLs = ls.listingStatusId;");
+																	and maxLs.maxLs = ls.listingStatusId
+																inner join property p
+																	on lst.propertyId = p.propertyId;");
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
@@ -87,7 +90,7 @@ Class Listing extends JsonDataObject
 		try {
 			$pdo = getPDO();
 			$stmt =  $pdo->prepare("select
-															lst.listingId,lst.propertyId,lst.agentId,lst.saleId,lst.mls,lst.title,lst.descriptionShort,lst.descriptionLong,lst.publicRemarks,lst.marketingId,lst.youTubeId,lst.shortSale,lst.featured,lst.frontPage,lst.lastUpdateDate,lst.lastUpdateId 
+															lst.listingId,lst.propertyId,lst.agentId,lst.saleId,lst.mls,lst.title,lst.descriptionShort,lst.descriptionLong,lst.publicRemarks,lst.marketingId,lst.youTubeId,lst.shortSale,lst.featured,lst.frontPage,lst.lastUpdateDate,lst.lastUpdateId
 															from listing lst
 															inner join listingstatus ls
 																on lst.listingId = ls.listingId

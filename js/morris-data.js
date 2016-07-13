@@ -1,4 +1,4 @@
-$(function() {
+function loadMorrisData(){
 
     Morris.Area({
         element: 'morris-area-chart',
@@ -113,5 +113,4 @@ $(function() {
         hideHover: 'auto',
         resize: true
     });
-
-});
+}

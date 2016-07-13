@@ -35,6 +35,7 @@ gulp.task('minify-angular',function(){
     .pipe(gulp.dest('dist/js'))
 });
 
+/*
 gulp.task('minify-data',function(){
   gulp.src(['js/flot-data.js','js/morris-data.js'])
     .pipe(sourcemaps.init())
@@ -45,6 +46,7 @@ gulp.task('minify-data',function(){
     .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest('dist/js'))
 });
+*/
 
 gulp.task('minify-js',function(){
   gulp.src(['js/sb-admin-2.js'])

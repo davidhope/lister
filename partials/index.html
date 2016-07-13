@@ -97,6 +97,22 @@
 </div>
 <!-- /.row -->
 <div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Line Chart Example
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-line-chart"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -136,18 +152,74 @@
         <!-- /.panel -->
     </div>
     <!-- /.col-lg-4 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Pie Chart Example
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-pie-chart"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Multiple Axes Line Chart Example
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-line-chart-multi"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Moving Line Chart Example
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-line-chart-moving"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Bar Chart Example
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-bar-chart"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
 </div>
 <!-- /.row -->
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-<!-- Morris Charts JavaScript -->
-<script src="bower_components/raphael/raphael.min.js"></script>
-<script src="bower_components/morrisjs/morris.min.js"></script>
-<script src="js/morris-data.js"></script>
 <script type="text/javascript">
-$(function() {
-    $('#side-menu').metisMenu();
-});
+  $(function() {
+      loadMorrisData();
+      loadFlotCharts();
+  });
 </script>
