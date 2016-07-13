@@ -11,7 +11,7 @@
     "url": "git+https://github.com/davidhope/lister.git"
   },
   "author": "David Hope",
-  "license": "ISC",
+  "license": "Apache",
   "bugs": {
     "url": "https://github.com/davidhope/lister/issues"
   },
