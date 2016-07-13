@@ -66,8 +66,9 @@ Class Listing extends JsonDataObject
 																lst.lastUpdateDate,
 																lst.lastUpdateId,
 																ls.statusTypeId,
+																p.address,
+																ls.statusTypeId,
 																p.address
-																ls.statusTypeId
 																from listing lst
 																inner join listingstatus ls
 																	on lst.listingId = ls.listingId
