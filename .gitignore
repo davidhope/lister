@@ -2,3 +2,4 @@
 /node_modules
 /includes/inc_creds.php
 /dist
+/sql
