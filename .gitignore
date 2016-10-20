@@ -4,3 +4,15 @@
 /dist
 /sql
 /nbproject/private/
+/packages
+/uploads
+blogpost.pl
+dropbox.html
+listings.html
+mail.pl
+table.pl
+test-constructor.php
+test.php
+test.pl
+testlisting.pl
+web.config
