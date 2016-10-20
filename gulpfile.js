@@ -8,7 +8,7 @@ var gulp = require('gulp'),
  sourcemaps = require('gulp-sourcemaps'),
  clean = require('gulp-clean');
 
-gulp.task('default', ['minify-angular','styles']);
+gulp.task('default', ['js','styles']);
 
 gulp.task('watch',function(){
   gulp.watch('sass/**/*.scss',['styles']);
@@ -27,10 +27,10 @@ gulp.task('styles', ['clean-styles'],function() {
 gulp.task('js',['clean-scripts'],function(){
   gulp.src(['js/client.js','js/app.js','js/ListingControllers.js','js/ListingService.js','js/animations.js','js/directives.js','js/filters.js'])
     .pipe(sourcemaps.init())
-    .pipe(concat('lister.js'))
+    .pipe(concat('lister.min.js'))
     .pipe(gulp.dest('dist/js'))
     .pipe(uglify())
-    .pipe(rename('lister.min.js'))
+    //.pipe(rename('lister.min.js'))
     .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest('dist/js'))
 });
