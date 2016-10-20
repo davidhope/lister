@@ -23,7 +23,7 @@
           element.stop();
         }
       };
-    }
+    };
 
     var animateDown = function(element, className, done) {
       if(className != 'active') {
@@ -44,7 +44,7 @@
           element.stop();
         }
       };
-    }
+    };
 
     return {
       addClass: animateUp,

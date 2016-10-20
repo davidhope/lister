@@ -7,7 +7,7 @@
   var homeControllers = angular.module('homeControllers', []);
 
   homeControllers.controller('HomeCtrl', ['$scope',
-    function($scope) {}
+    //function($scope) {}
   ]);
 
   listingControllers.controller('ListingCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
@@ -21,8 +21,10 @@
       $scope.getByStatus = function(){
         $log.log($scope.statusFilter);
         //$scope.listings = ListingService.GetByStatus({status:$scope.statusFilter});
-      }
-  }]);
+      };
+
+    }
+  ]);
 
   listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
     function($scope, $log, $routeParams, ListingService, StatusTypeService) {
@@ -31,15 +33,17 @@
 
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
       $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
-        //$scope.mainImageUrl = listing.images[0];
-        //$scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
-        $scope.currentPrice = $scope.listing.listingprice.reduce(function(prev, current) {
-                                  return (prev.listingPriceId > current.listingPriceId) ? prev : current
-                              })
+        $scope.mainImageUrl = listing.images[0];
+        $scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
+        $scope.currentPrice = $scope.listing.listingprice.reduce(
+          function(prev, current) {
+            return (prev.listingPriceId > current.listingPriceId) ? prev : current;
+          });
 
-        $scope.currentStatus = $scope.listing.listingstatus.reduce(function(prev, current) {
-                                  return (prev.listingStatusId > current.listingStatusId) ? prev : current
-                              })
+        $scope.currentStatus = $scope.listing.listingstatus.reduce(
+          function(prev, current) {
+            return (prev.listingStatusId > current.listingStatusId) ? prev : current;
+          });
 
         $log.log($scope.currentPrice);
       });

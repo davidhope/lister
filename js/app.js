@@ -31,5 +31,5 @@
         otherwise({
           redirectTo: '/'
         });
-  }]);
+    }]);
 })();

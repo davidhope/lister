@@ -1,0 +1,5 @@
+gulpfile.js
+/node_modules/**/*.*
+/bower_components/**/*.*
+/js/morris-data.js
+/js/flot-data.js
