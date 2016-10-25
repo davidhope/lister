@@ -1,7 +1,7 @@
 /bower_components
 /node_modules
 /includes/inc_creds.php
-/dist
+/assets
 /sql
 /nbproject/private/
 /packages
@@ -16,3 +16,4 @@ test.php
 test.pl
 testlisting.pl
 web.config
+phpinfo.php

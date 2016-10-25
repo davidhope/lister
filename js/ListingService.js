@@ -13,7 +13,7 @@
       //return $resource('listings/services/listing/:id');
 
       return $resource('services/listing/:id',null,{
-          'GetByStatus': {method: 'GET',isArray: true}
+        'GetByStatus': {method: 'GET',isArray: true}
       });
 
     }

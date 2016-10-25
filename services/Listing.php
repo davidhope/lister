@@ -6,6 +6,7 @@
 		//ReturnJsonError("Session expired");
 		//exit;
 	}
+
 	switch ($_SERVER['REQUEST_METHOD']){
 		case 'GET';
 			if(isset($_GET['id'])){

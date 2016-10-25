@@ -16,18 +16,17 @@ var gulp = require('gulp'),
   //bower = require('gulp-bower-files');
   //replace = require('gulp-replace');
 
-gulp.task('default', ['lint','copy-html','copy-images','copy-php','styles','scripts'], function(){
+gulp.task('default', ['lint','copy-images','styles','scripts'], function(){//'copy-html','copy-php',
     
-
     gulp.watch('./sass/*.scss', ['styles']);
     gulp.watch('./js/**/*.js',['lint','scripts']);
-    gulp.watch('./index.html', ['copy-html']); // watches dev copy for changes and copies it to dist
-    gulp.watch('./fileUpload.html', ['copy-html']); // watches dev copy for changes and copies it to dist
-    gulp.watch('./partials/*.html', ['copy-html']); // watches dev copy for changes and copies it to dist
-    // gulp.watch('./**/*.php', ['copy-php']); // watches dev copy for changes and copies it to dist
-    gulp.watch('dist/**/*.html').on('change', browserSync.reload); // watches dist copy and reloads the browser
+    //gulp.watch('./index.html', ['copy-html']); // watches dev copy for changes and copies it to dist
+    //gulp.watch('./fileUpload.html', ['copy-html']); // watches dev copy for changes and copies it to dist
+    //gulp.watch('./partials/*.html', ['copy-html']); // watches dev copy for changes and copies it to dist
+    //gulp.watch('./**/*.php', ['copy-php']); // watches dev copy for changes and copies it to dist
+    //gulp.watch('/**/*.html').on('change', browserSync.reload); // watches dist copy and reloads the browser
 
-    browserSync.init({server: "./dist"});
+    //browserSync.init({server: "./"});
 });
 
 //Process CSS
@@ -41,7 +40,7 @@ gulp.task('styles',['copy-vendor-css', 'copy-fonts'], function() {
       }))
       .pipe(rename('styles.min.css'))
       .pipe(sourcemaps.write('maps'))
-      .pipe(gulp.dest('dist/css/'));    
+      .pipe(gulp.dest('assets/css/'));    
 });
 
 //Copy Vendor CSS files
@@ -53,12 +52,12 @@ gulp.task('copy-vendor-css',function(){
       .pipe(sourcemaps.init())
       .pipe(concat('vendors.min.css'))
       .pipe(sourcemaps.write('maps'))
-      .pipe(gulp.dest('dist/css/'));
+      .pipe(gulp.dest('assets/css/'));
 });
 
 gulp.task('copy-fonts', function(){
   gulp.src('bower_components/font-awesome/fonts/*.*')
-    .pipe(gulp.dest('dist/fonts/'));
+    .pipe(gulp.dest('assets/fonts/'));
 });
 
 // Process JS files
@@ -68,14 +67,14 @@ gulp.task('scripts',['copy-chart-js','bower'], function(){
     .pipe(concat('lister.min.js'))
     .pipe(uglify())
     .pipe(sourcemaps.write('maps'))
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('assets/js'));
 
 });
 
 //Copy mock chart data JS files - won't be needed with prod release
 gulp.task('copy-chart-js',function(){
   gulp.src(['js/morris-data.js','js/flot-data.js'])
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('assets/js'));
 });
 
 
@@ -100,7 +99,7 @@ gulp.task('bower', function() {
     .pipe(sourcemaps.init())
     .pipe(concat('vendor.min.js'))
     .pipe(sourcemaps.write('maps'))
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('assets/js'));
 
   
   /*
@@ -130,23 +129,23 @@ gulp.task('lint', function() {
         .pipe(eslint.failAfterError());
 });
 
-//Copy HTML Files
-gulp.task('copy-html',['copy-html-index','copy-html-upload','copy-html-partials']);
+// //Copy HTML Files
+// gulp.task('copy-html',['copy-html-index','copy-html-upload','copy-html-partials']);
 
-gulp.task('copy-html-index', function(){
-  gulp.src('index.html')
-    .pipe(gulp.dest('./dist/').on('error', sass.logError));
-});
+// gulp.task('copy-html-index', function(){
+//   gulp.src('index.html')
+//     .pipe(gulp.dest('./dist/').on('error', sass.logError));
+// });
 
-gulp.task('copy-html-upload', function(){
-  gulp.src('fileUpload.html')
-    .pipe(gulp.dest('./dist/').on('error', sass.logError));
-});
+// gulp.task('copy-html-upload', function(){
+//   gulp.src('fileUpload.html')
+//     .pipe(gulp.dest('./dist/').on('error', sass.logError));
+// });
 
-gulp.task('copy-html-partials', function(){
-  gulp.src('partials/*.html')
-    .pipe(gulp.dest('./dist/partials/').on('error', sass.logError));
-});
+// gulp.task('copy-html-partials', function(){
+//   gulp.src('partials/*.html')
+//     .pipe(gulp.dest('./dist/partials/').on('error', sass.logError));
+// });
 
 //Copy Images
 gulp.task('copy-images', function(){
@@ -155,35 +154,35 @@ gulp.task('copy-images', function(){
       progressive: true,
       use:[pngquant()]
     }))
-    .pipe(gulp.dest('dist/img'));
+    .pipe(gulp.dest('assets/img'));
 });
 
-//Copy PHP Files
-gulp.task('copy-php',['copy-php-includes','copy-php-classes','copy-php-services']);
+// //Copy PHP Files
+// gulp.task('copy-php',['copy-php-includes','copy-php-classes','copy-php-services']);
 
-gulp.task('copy-php-includes', function(){
-  gulp.src('includes/*.php')
-    .pipe(gulp.dest('./dist/includes/'));
-});
+// gulp.task('copy-php-includes', function(){
+//   gulp.src('includes/*.php')
+//     .pipe(gulp.dest('./dist/includes/'));
+// });
 
-gulp.task('copy-php-classes', function(){
-  gulp.src('classes/*.php')
-    .pipe(gulp.dest('./dist/classes/'));
-});
+// gulp.task('copy-php-classes', function(){
+//   gulp.src('classes/*.php')
+//     .pipe(gulp.dest('./dist/classes/'));
+// });
 
-gulp.task('copy-php-services', function(){
-  gulp.src('services/*.php')
-   .pipe(gulp.dest('./dist/services/'));
-});
+// gulp.task('copy-php-services', function(){
+//   gulp.src('services/*.php')
+//    .pipe(gulp.dest('./dist/services/'));
+// });
 
-gulp.task('dist', ['clean-dist','lint','copy-html','copy-images','copy-php','styles','scripts']);
+gulp.task('dist', ['clean-dist','lint','copy-images','styles','scripts']);//'copy-html','copy-php',
 
 gulp.task('clean-dist', function () {
-  return gulp.src('dist', {read: false})
+  return gulp.src('assets', {read: false})
     .pipe(clean({force: true}));
 });
 
-
+//if I want to modify font-awesome
 gulp.task('font-awesome', ['copy-vendor-css'], function(){
   gulp.src('bower_components/font-awesome/scss/**/*.scss')
       .pipe(sourcemaps.init())
