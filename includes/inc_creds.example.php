@@ -1,9 +1,8 @@
 <?php
 
-    //add approriate values and rename to inc_creds.php
-    
-    define("con_dbConn", "mysql:host=[host];dbname=[dbname]");
+    // New layout
+    define("con_dbConn", "mysql:host=[host];dbname=[db]");
     define("con_dbUser","[user]");
-    define("con_dbPass","[pass]");
+    define("con_dbPass","[password]");
 
 ?>
