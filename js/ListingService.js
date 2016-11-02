@@ -12,7 +12,7 @@
 
       //return $resource('listings/services/listing/:id');
 
-      return $resource('services/listing/:id',null,{
+      return $resource('services/listing/:mls',null,{
         'GetByStatus': {method: 'GET',isArray: true}
       });
 

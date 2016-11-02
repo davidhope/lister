@@ -2,7 +2,7 @@
 	include('..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'inc_master.php');
 
 	if(!isset($_SESSION[con_userid])){
-    $_SESSION[con_userid] = 'dhope';
+    	$_SESSION[con_userid] = 'dhope';
 		//ReturnJsonError("Session expired");
 		//exit;
 	}
@@ -18,6 +18,15 @@
 				}catch(Exception $e){
 					ReturnJsonError($e->getMessage());
 				}
+			}elseif(isset($_GET['statusType'])){
+						try{
+							$statusType = $_GET['statusType'];
+							$obj = new Listing;
+							$res = $obj->GetByStatus($statusType);
+							ReturnJsonSuccess($res);
+						}catch(Exception $e){
+							ReturnJsonError($e->getMessage());
+						}
 			}elseif(isset($_GET['statusTypeId'])){
 						try{
 							$statusTypeId = $_GET['statusTypeId'];

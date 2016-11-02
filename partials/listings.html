@@ -15,15 +15,15 @@
       Status:
       <!-- Client Filter-->
       <select ng-model="statusFilter">
-        <option ng-repeat="st in statusTypes" value="{{st.statusTypeId}}">{{st.name}}</option>
+        <option ng-repeat="st in statusTypes" value="{{st.name}}">{{st.name}}</option>
       </select>
     </div>
     <div class="col-md-9">
       <!--Body content-->
         <!-- filter on client -->
-        <div class="panel panel-default" ng-repeat="listing in listings | filter:query | filter: {statusTypeId:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing">
+        <div class="panel panel-default" ng-repeat="listing in listings | filter:query | filter: {status:statusFilter} | orderBy:orderProp" class="thumbnail mls-listing">
           <div class="panel-heading">
-              <a href="#/listings/{{listing.listingId}}">{{listing.mls}} - {{listing.address}}</a>
+              <a href="#/listings/{{listing.mls}}">{{listing.mls}} - {{listing.address}}</a>
               <span class="pull-right">{{listing.price | currency}}</span>
           </div>
           <!-- /.panel-heading -->

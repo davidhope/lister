@@ -28,7 +28,7 @@ Class NewListing extends JsonDataObject
 	public $lastUpdateDate;
 	public $lastUpdateId;
 
-  function __construct($obj = NULL) {
+  	function __construct($obj = NULL) {
 		if(isset($obj)){
 			$this->buildFromObject($obj);
 		}

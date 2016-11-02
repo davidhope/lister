@@ -1,4 +1,5 @@
 <?php
+require_once('JsonDataObject.php');
 Class Listing extends JsonDataObject
 {
 	public $mls;
@@ -53,10 +54,23 @@ Class Listing extends JsonDataObject
 	public $school_middle;
 	public $school_high;
 	public $youtube_id;
-}
-Class ListingController{
+    public $lastUpdateDate;
+    public $lastUpdateId;
 
-  public function GetAll(){
+    function __construct($obj = NULL) {
+        if(isset($obj)){
+            $this->buildFromObject($obj);
+        }
+    }
+
+    public function buildFromObject($obj){
+
+        $instance = objectToObject($obj,'Listing');
+
+        return $instance;
+    }
+
+    public function getAll(){
 		$pdo;
 		$stmt;
 		try {
@@ -78,10 +92,10 @@ Class ListingController{
 		try {
 			$pdo = getPDO();
 			$stmt =  $pdo->prepare("select mls,marketing_id,address,price,date_listed,date_sold,type,status,shortsale,price_original,price_previous,price_reduced,price_sold,sold_notes,sqft_live,sqft_lot,acres,title,description_short,description_long,public_remarks,featured,front_page,area,subdiv,neighborhood,location,latitude,longitude,elevation,unit,city,state,zip,county,gated,floor,bed,bath,stories,garage,pool,spa,year_built,zoning,parcel,open_house_date,open_house_time,school_elementary,school_middle,school_high,youtube_id
-      from listings
-      where status = :status;");
-      $stmt->bindParam(':status',$status, PDO::PARAM_STR);
-      $stmt->execute();
+          from listings
+          where status = :status;");
+          $stmt->bindParam(':status',$status, PDO::PARAM_STR);
+          $stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;
 		}catch(PDOException $pdoe){
@@ -108,12 +122,13 @@ Class ListingController{
 			throw new Exception($e->getMessage());
 		}
 	}
-	public function Save($Listing){
+
+	public function Save(){
 		$pdo;
 		$stmt;
 
 		try {
-			if($Listing->mls > 0){
+			if($this->mls > 0){
 					$pdo = getPDO();
 					$stmt =  $pdo->prepare("update listings set
                         marketing_id = :marketing_id,
@@ -168,137 +183,137 @@ Class ListingController{
                         school_high = :school_high,
                         youtube_id = :youtube_id
  											where mls = :id;");
-            $stmt->bindParam(':id',$Listing->mls, PDO::PARAM_INT);
+            $stmt->bindParam(':id',$this->mls, PDO::PARAM_INT);
 
-            if(is_null($Listing->marketing_id)){
+            if(is_null($this->marketing_id)){
                 $stmt->bindValue(':marketing_id',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':marketing_id',$Listing->marketing_id, PDO::PARAM_INT);
+                $stmt->bindParam(':marketing_id',$this->marketing_id, PDO::PARAM_INT);
             }
 
-            $stmt->bindParam(':address',$Listing->address, PDO::PARAM_STR);
-            $stmt->bindParam(':price',$Listing->price, PDO::PARAM_INT);
-            $stmt->bindParam(':date_listed',$Listing->date_listed, PDO::PARAM_STR);
-            if(is_null($Listing->date_sold)){
+            $stmt->bindParam(':address',$this->address, PDO::PARAM_STR);
+            $stmt->bindParam(':price',$this->price, PDO::PARAM_INT);
+            $stmt->bindParam(':date_listed',$this->date_listed, PDO::PARAM_STR);
+            if(is_null($this->date_sold)){
                 $stmt->bindValue(':date_sold',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':date_sold',$Listing->date_sold, PDO::PARAM_STR);
+                $stmt->bindParam(':date_sold',$this->date_sold, PDO::PARAM_STR);
             }
-            $stmt->bindParam(':type',$Listing->type, PDO::PARAM_STR);
-            $stmt->bindParam(':status',$Listing->status, PDO::PARAM_STR);
-            if(is_null($Listing->shortsale)){
+            $stmt->bindParam(':type',$this->type, PDO::PARAM_STR);
+            $stmt->bindParam(':status',$this->status, PDO::PARAM_STR);
+            if(is_null($this->shortsale)){
                 $stmt->bindValue(':shortsale',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':shortsale',$Listing->shortsale, PDO::PARAM_STR);
+                $stmt->bindParam(':shortsale',$this->shortsale, PDO::PARAM_STR);
             }
 
-            if(is_null($Listing->price_original)){
+            if(is_null($this->price_original)){
                 $stmt->bindValue(':price_original',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':price_original',$Listing->price_original, PDO::PARAM_INT);
+                $stmt->bindParam(':price_original',$this->price_original, PDO::PARAM_INT);
             }
 
-            if(is_null($Listing->price_previous)){
+            if(is_null($this->price_previous)){
                 $stmt->bindValue(':price_previous',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':price_previous',$Listing->price_previous, PDO::PARAM_INT);
+                $stmt->bindParam(':price_previous',$this->price_previous, PDO::PARAM_INT);
             }
 
-            if(is_null($Listing->price_reduced)){
+            if(is_null($this->price_reduced)){
                 $stmt->bindValue(':price_reduced',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':price_reduced',$Listing->price_reduced, PDO::PARAM_STR);
+                $stmt->bindParam(':price_reduced',$this->price_reduced, PDO::PARAM_STR);
             }
 
-            if(is_null($Listing->price_sold)){
+            if(is_null($this->price_sold)){
                 $stmt->bindValue(':price_sold',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':price_sold',$Listing->price_sold, PDO::PARAM_INT);
+                $stmt->bindParam(':price_sold',$this->price_sold, PDO::PARAM_INT);
             }
-            if(is_null($Listing->sold_notes)){
+            if(is_null($this->sold_notes)){
                 $stmt->bindValue(':sold_notes',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':sold_notes',$Listing->sold_notes, PDO::PARAM_STR);
+                $stmt->bindParam(':sold_notes',$this->sold_notes, PDO::PARAM_STR);
             }
-            $stmt->bindParam(':sqft_live',$Listing->sqft_live, PDO::PARAM_INT);
-            $stmt->bindParam(':sqft_lot',$Listing->sqft_lot, PDO::PARAM_INT);
-            $stmt->bindParam(':acres',$Listing->acres, PDO::PARAM_INT);
-            $stmt->bindParam(':title',$Listing->title, PDO::PARAM_STR);
-            $stmt->bindParam(':description_short',$Listing->description_short, PDO::PARAM_STR);
+            $stmt->bindParam(':sqft_live',$this->sqft_live, PDO::PARAM_INT);
+            $stmt->bindParam(':sqft_lot',$this->sqft_lot, PDO::PARAM_INT);
+            $stmt->bindParam(':acres',$this->acres, PDO::PARAM_INT);
+            $stmt->bindParam(':title',$this->title, PDO::PARAM_STR);
+            $stmt->bindParam(':description_short',$this->description_short, PDO::PARAM_STR);
 
-            if(is_null($Listing->description_long)){
+            if(is_null($this->description_long)){
                 $stmt->bindValue(':description_long',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':description_long',$Listing->description_long, PDO::PARAM_STR);
+                $stmt->bindParam(':description_long',$this->description_long, PDO::PARAM_STR);
             }
-            $stmt->bindParam(':public_remarks',$Listing->public_remarks, PDO::PARAM_STR);
+            $stmt->bindParam(':public_remarks',$this->public_remarks, PDO::PARAM_STR);
 
-            if(is_null($Listing->featured)){
+            if(is_null($this->featured)){
                 $stmt->bindValue(':featured',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':featured',$Listing->featured, PDO::PARAM_STR);
+                $stmt->bindParam(':featured',$this->featured, PDO::PARAM_STR);
             }
 
-            if(is_null($Listing->front_page)){
+            if(is_null($this->front_page)){
                 $stmt->bindValue(':front_page',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':front_page',$Listing->front_page, PDO::PARAM_STR);
+                $stmt->bindParam(':front_page',$this->front_page, PDO::PARAM_STR);
             }
 
-            $stmt->bindParam(':area',$Listing->area, PDO::PARAM_STR);
-            $stmt->bindParam(':subdiv',$Listing->subdiv, PDO::PARAM_STR);
-            $stmt->bindParam(':neighborhood',$Listing->neighborhood, PDO::PARAM_STR);
-            $stmt->bindParam(':location',$Listing->location, PDO::PARAM_STR);
-            $stmt->bindParam(':latitude',$Listing->latitude, PDO::PARAM_INT);
-            $stmt->bindParam(':longitude',$Listing->longitude, PDO::PARAM_INT);
-            $stmt->bindParam(':elevation',$Listing->elevation, PDO::PARAM_INT);
-            if(is_null($Listing->unit)){
+            $stmt->bindParam(':area',$this->area, PDO::PARAM_STR);
+            $stmt->bindParam(':subdiv',$this->subdiv, PDO::PARAM_STR);
+            $stmt->bindParam(':neighborhood',$this->neighborhood, PDO::PARAM_STR);
+            $stmt->bindParam(':location',$this->location, PDO::PARAM_STR);
+            $stmt->bindParam(':latitude',$this->latitude, PDO::PARAM_INT);
+            $stmt->bindParam(':longitude',$this->longitude, PDO::PARAM_INT);
+            $stmt->bindParam(':elevation',$this->elevation, PDO::PARAM_INT);
+            if(is_null($this->unit)){
                 $stmt->bindValue(':unit',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':unit',$Listing->unit, PDO::PARAM_STR);
+                $stmt->bindParam(':unit',$this->unit, PDO::PARAM_STR);
             }
-            $stmt->bindParam(':city',$Listing->city, PDO::PARAM_STR);
-            $stmt->bindParam(':state',$Listing->state, PDO::PARAM_STR);
-            $stmt->bindParam(':zip',$Listing->zip, PDO::PARAM_STR);
-            $stmt->bindParam(':county',$Listing->county, PDO::PARAM_STR);
-            $stmt->bindParam(':gated',$Listing->gated, PDO::PARAM_STR);
+            $stmt->bindParam(':city',$this->city, PDO::PARAM_STR);
+            $stmt->bindParam(':state',$this->state, PDO::PARAM_STR);
+            $stmt->bindParam(':zip',$this->zip, PDO::PARAM_STR);
+            $stmt->bindParam(':county',$this->county, PDO::PARAM_STR);
+            $stmt->bindParam(':gated',$this->gated, PDO::PARAM_STR);
 
-            if(is_null($Listing->floor)){
+            if(is_null($this->floor)){
                 $stmt->bindValue(':floor',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':floor',$Listing->floor, PDO::PARAM_STR);
+                $stmt->bindParam(':floor',$this->floor, PDO::PARAM_STR);
             }
 
-            $stmt->bindParam(':bed',$Listing->bed, PDO::PARAM_INT);
-            $stmt->bindParam(':bath',$Listing->bath, PDO::PARAM_INT);
-            $stmt->bindParam(':stories',$Listing->stories, PDO::PARAM_INT);
-            $stmt->bindParam(':garage',$Listing->garage, PDO::PARAM_INT);
-            $stmt->bindParam(':pool',$Listing->pool, PDO::PARAM_STR);
-            $stmt->bindParam(':spa',$Listing->spa, PDO::PARAM_STR);
-            $stmt->bindParam(':year_built',$Listing->year_built, PDO::PARAM_INT);
-            if(is_null($Listing->zoning)){
+            $stmt->bindParam(':bed',$this->bed, PDO::PARAM_INT);
+            $stmt->bindParam(':bath',$this->bath, PDO::PARAM_INT);
+            $stmt->bindParam(':stories',$this->stories, PDO::PARAM_INT);
+            $stmt->bindParam(':garage',$this->garage, PDO::PARAM_INT);
+            $stmt->bindParam(':pool',$this->pool, PDO::PARAM_STR);
+            $stmt->bindParam(':spa',$this->spa, PDO::PARAM_STR);
+            $stmt->bindParam(':year_built',$this->year_built, PDO::PARAM_INT);
+            if(is_null($this->zoning)){
                 $stmt->bindValue(':zoning',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':zoning',$Listing->zoning, PDO::PARAM_STR);
+                $stmt->bindParam(':zoning',$this->zoning, PDO::PARAM_STR);
             }
-            $stmt->bindParam(':parcel',$Listing->parcel, PDO::PARAM_STR);
-            if(is_null($Listing->open_house_date)){
+            $stmt->bindParam(':parcel',$this->parcel, PDO::PARAM_STR);
+            if(is_null($this->open_house_date)){
                 $stmt->bindValue(':open_house_date',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':open_house_date',$Listing->open_house_date, PDO::PARAM_STR);
+                $stmt->bindParam(':open_house_date',$this->open_house_date, PDO::PARAM_STR);
             }
-            if(is_null($Listing->open_house_time)){
+            if(is_null($this->open_house_time)){
                 $stmt->bindValue(':open_house_time',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':open_house_time',$Listing->open_house_time, PDO::PARAM_STR);
+                $stmt->bindParam(':open_house_time',$this->open_house_time, PDO::PARAM_STR);
             }
-            $stmt->bindParam(':school_elementary',$Listing->school_elementary, PDO::PARAM_STR);
-            $stmt->bindParam(':school_middle',$Listing->school_middle, PDO::PARAM_STR);
-            $stmt->bindParam(':school_high',$Listing->school_high, PDO::PARAM_STR);
-            if(is_null($Listing->youtube_id)){
+            $stmt->bindParam(':school_elementary',$this->school_elementary, PDO::PARAM_STR);
+            $stmt->bindParam(':school_middle',$this->school_middle, PDO::PARAM_STR);
+            $stmt->bindParam(':school_high',$this->school_high, PDO::PARAM_STR);
+            if(is_null($this->youtube_id)){
                 $stmt->bindValue(':youtube_id',NULL, PDO::PARAM_INT);
             } else {
-                $stmt->bindParam(':youtube_id',$Listing->youtube_id, PDO::PARAM_STR);
+                $stmt->bindParam(':youtube_id',$this->youtube_id, PDO::PARAM_STR);
             }
 					$stmt->execute();
 			}else{
@@ -306,52 +321,52 @@ Class ListingController{
 				$stmt =  $pdo->prepare("insert into listings(marketing_id,address,price,date_listed,date_sold,type,status,shortsale,price_original,price_previous,price_reduced,price_sold,sold_notes,sqft_live,sqft_lot,acres,title,description_short,description_long,public_remarks,featured,front_page,area,subdiv,neighborhood,location,latitude,longitude,elevation,unit,city,state,zip,county,gated,floor,bed,bath,stories,garage,pool,spa,year_built,zoning,parcel,open_house_date,open_house_time,school_elementary,school_middle,school_high,youtube_id)
         values(:marketing_id,:address,:price,:date_listed,:date_sold,:type,:status,:shortsale,:price_original,:price_previous,:price_reduced,:price_sold,:sold_notes,:sqft_live,:sqft_lot,:acres,:title,:description_short,:description_long,:public_remarks,:featured,:front_page,:area,:subdiv,:neighborhood,:location,:latitude,:longitude,:elevation,:unit,:city,:state,:zip,:county,:gated,:floor,:bed,:bath,:stories,:garage,:pool,:spa,:year_built,:zoning,:parcel,:open_house_date,:open_house_time,:school_elementary,:school_middle,:school_high,:youtube_id);");
 
-				$stmt->bindParam(':address',$Listing->address, PDO::PARAM_STR);
-				$stmt->bindParam(':price',$Listing->price, PDO::PARAM_INT);
-				$stmt->bindParam(':type',$Listing->type, PDO::PARAM_STR);
-				$stmt->bindParam(':status',$Listing->status, PDO::PARAM_STR);
-				$stmt->bindParam(':shortsale',$Listing->shortsale, PDO::PARAM_STR);
-				$stmt->bindParam(':price_original',$Listing->price_original, PDO::PARAM_INT);
-				$stmt->bindParam(':price_previous',$Listing->price_previous, PDO::PARAM_INT);
-				$stmt->bindParam(':price_reduced',$Listing->price_reduced, PDO::PARAM_STR);
-				$stmt->bindParam(':price_sold',$Listing->price_sold, PDO::PARAM_INT);
-				$stmt->bindParam(':sold_notes',$Listing->sold_notes, PDO::PARAM_STR);
-				$stmt->bindParam(':acres',$Listing->acres, PDO::PARAM_INT);
-				$stmt->bindParam(':title',$Listing->title, PDO::PARAM_STR);
-				$stmt->bindParam(':description_short',$Listing->description_short, PDO::PARAM_STR);
-				$stmt->bindParam(':description_long',$Listing->description_long, PDO::PARAM_STR);
-				$stmt->bindParam(':public_remarks',$Listing->public_remarks, PDO::PARAM_STR);
-				$stmt->bindParam(':featured',$Listing->featured, PDO::PARAM_STR);
-				$stmt->bindParam(':front_page',$Listing->front_page, PDO::PARAM_STR);
-				$stmt->bindParam(':area',$Listing->area, PDO::PARAM_STR);
-				$stmt->bindParam(':subdiv',$Listing->subdiv, PDO::PARAM_STR);
-				$stmt->bindParam(':neighborhood',$Listing->neighborhood, PDO::PARAM_STR);
-				$stmt->bindParam(':location',$Listing->location, PDO::PARAM_STR);
-				$stmt->bindParam(':latitude',$Listing->latitude, PDO::PARAM_INT);
-				$stmt->bindParam(':longitude',$Listing->longitude, PDO::PARAM_INT);
-				$stmt->bindParam(':unit',$Listing->unit, PDO::PARAM_STR);
-				$stmt->bindParam(':city',$Listing->city, PDO::PARAM_STR);
-				$stmt->bindParam(':state',$Listing->state, PDO::PARAM_STR);
-				$stmt->bindParam(':zip',$Listing->zip, PDO::PARAM_STR);
-				$stmt->bindParam(':county',$Listing->county, PDO::PARAM_STR);
-				$stmt->bindParam(':gated',$Listing->gated, PDO::PARAM_STR);
-				$stmt->bindParam(':pool',$Listing->pool, PDO::PARAM_STR);
-				$stmt->bindParam(':spa',$Listing->spa, PDO::PARAM_STR);
-				$stmt->bindParam(':zoning',$Listing->zoning, PDO::PARAM_STR);
-				$stmt->bindParam(':parcel',$Listing->parcel, PDO::PARAM_STR);
-				$stmt->bindParam(':open_house_date',$Listing->open_house_date, PDO::PARAM_STR);
-				$stmt->bindParam(':open_house_time',$Listing->open_house_time, PDO::PARAM_STR);
-				$stmt->bindParam(':school_elementary',$Listing->school_elementary, PDO::PARAM_STR);
-				$stmt->bindParam(':school_middle',$Listing->school_middle, PDO::PARAM_STR);
-				$stmt->bindParam(':school_high',$Listing->school_high, PDO::PARAM_STR);
-				$stmt->bindParam(':youtube_id',$Listing->youtube_id, PDO::PARAM_STR);
+				$stmt->bindParam(':address',$this->address, PDO::PARAM_STR);
+				$stmt->bindParam(':price',$this->price, PDO::PARAM_INT);
+				$stmt->bindParam(':type',$this->type, PDO::PARAM_STR);
+				$stmt->bindParam(':status',$this->status, PDO::PARAM_STR);
+				$stmt->bindParam(':shortsale',$this->shortsale, PDO::PARAM_STR);
+				$stmt->bindParam(':price_original',$this->price_original, PDO::PARAM_INT);
+				$stmt->bindParam(':price_previous',$this->price_previous, PDO::PARAM_INT);
+				$stmt->bindParam(':price_reduced',$this->price_reduced, PDO::PARAM_STR);
+				$stmt->bindParam(':price_sold',$this->price_sold, PDO::PARAM_INT);
+				$stmt->bindParam(':sold_notes',$this->sold_notes, PDO::PARAM_STR);
+				$stmt->bindParam(':acres',$this->acres, PDO::PARAM_INT);
+				$stmt->bindParam(':title',$this->title, PDO::PARAM_STR);
+				$stmt->bindParam(':description_short',$this->description_short, PDO::PARAM_STR);
+				$stmt->bindParam(':description_long',$this->description_long, PDO::PARAM_STR);
+				$stmt->bindParam(':public_remarks',$this->public_remarks, PDO::PARAM_STR);
+				$stmt->bindParam(':featured',$this->featured, PDO::PARAM_STR);
+				$stmt->bindParam(':front_page',$this->front_page, PDO::PARAM_STR);
+				$stmt->bindParam(':area',$this->area, PDO::PARAM_STR);
+				$stmt->bindParam(':subdiv',$this->subdiv, PDO::PARAM_STR);
+				$stmt->bindParam(':neighborhood',$this->neighborhood, PDO::PARAM_STR);
+				$stmt->bindParam(':location',$this->location, PDO::PARAM_STR);
+				$stmt->bindParam(':latitude',$this->latitude, PDO::PARAM_INT);
+				$stmt->bindParam(':longitude',$this->longitude, PDO::PARAM_INT);
+				$stmt->bindParam(':unit',$this->unit, PDO::PARAM_STR);
+				$stmt->bindParam(':city',$this->city, PDO::PARAM_STR);
+				$stmt->bindParam(':state',$this->state, PDO::PARAM_STR);
+				$stmt->bindParam(':zip',$this->zip, PDO::PARAM_STR);
+				$stmt->bindParam(':county',$this->county, PDO::PARAM_STR);
+				$stmt->bindParam(':gated',$this->gated, PDO::PARAM_STR);
+				$stmt->bindParam(':pool',$this->pool, PDO::PARAM_STR);
+				$stmt->bindParam(':spa',$this->spa, PDO::PARAM_STR);
+				$stmt->bindParam(':zoning',$this->zoning, PDO::PARAM_STR);
+				$stmt->bindParam(':parcel',$this->parcel, PDO::PARAM_STR);
+				$stmt->bindParam(':open_house_date',$this->open_house_date, PDO::PARAM_STR);
+				$stmt->bindParam(':open_house_time',$this->open_house_time, PDO::PARAM_STR);
+				$stmt->bindParam(':school_elementary',$this->school_elementary, PDO::PARAM_STR);
+				$stmt->bindParam(':school_middle',$this->school_middle, PDO::PARAM_STR);
+				$stmt->bindParam(':school_high',$this->school_high, PDO::PARAM_STR);
+				$stmt->bindParam(':youtube_id',$this->youtube_id, PDO::PARAM_STR);
 				$stmt->execute();
-				$Listing->mls = $pdo->lastInsertId();
+				$this->mls = $pdo->lastInsertId();
 			}
 			if($stmt->rowCount() > 0){
-				Return $this->Get($Listing->mls);
+				Return $this->Get($this->mls);
 			}else{
-				throw new Exception(($Listing->mls > 0 ? "Update" : "Insert") . "  failed.");
+				throw new Exception(($this->mls > 0 ? "Update" : "Insert") . "  failed.");
 			}
 		}catch(PDOException $pdoe){
 			throw new Exception($pdoe->getMessage());

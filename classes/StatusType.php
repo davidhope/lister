@@ -12,7 +12,8 @@ Class StatusType extends JsonDataObject
 		$stmt;
 		try {
 			$pdo = getPDO();
-			$stmt =  $pdo->prepare("select statusTypeId,name,lastUpdateDate,lastUpdateId from statustype;");
+			//$stmt =  $pdo->prepare("select statusTypeId,name,lastUpdateDate,lastUpdateId from statustype;");
+			$stmt =  $pdo->prepare("select distinct status 'name' from listings where status is not null order by status;");
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $result;

@@ -11,56 +11,107 @@
   <div class="row">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">{{listing.property.address}}</h3>
+        <h3 class="panel-title">{{listing.address}}</h3>
       </div>
       <div class="panel-body">
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label">MLS: </label>
           <div class="col-sm-10"><span class="form-control">{{listing.mls}}</span></div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtAddress">Address: </label>
-          <div class="col-sm-10"><input type="text" class="form-control" required id="txtAddress" name="txtAddress" ng-model="listing.property.address" /></div>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtAddress" name="txtAddress" ng-model="listing.address" /></div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtParcel">Parcel: </label>
-          <div class="col-sm-10"><input type="text" class="form-control" required id="txtParcel" name="txtParcel" ng-model="listing.property.parcelNumber" readonly /></div>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtParcel" name="txtParcel" ng-model="listing.parcel" readonly /></div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtPrice">Price: </label>
-          <div class="col-sm-10"><input type="text" class="form-control" required id="txtPrice" name="txtPrice" ng-model="currentPrice.price" /></div>
+          <div class="col-sm-10"><input type="text" class="form-control" required id="txtPrice" name="txtPrice" ng-model="listing.price | currency" /></div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="ddlStatus">Status: </label>
           <div class="col-sm-10">
-            <select id="ddlStatus" ng-model="currentStatus.statusTypeId">
-              <option ng-repeat="st in statusTypes" value="{{st.statusTypeId}}">{{st.name}}</option>
+            <select id="ddlStatus" ng-model="listing.status">
+              <option ng-repeat="st in statusTypes" value="{{st.name}}">{{st.name}}</option>
             </select>
           </div>
         </div>
-        <div class="col-sm-12"></div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtDescriptionShort">Description (abbreviated): </label>
           <div class="col-sm-10">
-            <textarea id="txtDescriptionShort" style="min-width: 100%" rows="5" ng-model="listing.descriptionShort"></textarea>
+            <textarea id="txtDescriptionShort" style="min-width: 100%" rows="5" ng-model="listing.description_short"></textarea>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtDescriptionLong">Description (detailed): </label>
           <div class="col-sm-10">
-            <textarea name="txtDescriptionLong" style="min-width: 100%" rows="5" ng-model="listing.descriptionLong"></textarea>
+            <textarea name="txtDescriptionLong" style="min-width: 100%" rows="5" ng-model="listing.description_long"></textarea>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-sm-2 control-label" for="chkFeatured">Featured: </label>
           <div class="col-sm-10">
             <input type="checkbox" name="chkFeatured" ng-model="listing.featured"></input>
           </div>
         </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Residence</h3>
+              </div>
+              <div class="panel-body">
+                <div class="toc">
+                  <div><strong>Beds</strong><strong>{{listing.bed}}</strong></div>
+                  <div><strong>Baths</strong><strong>{{listing.bath}}</strong></div>
+                  <div><strong>Stories</strong><strong>{{listing.stories}}</strong></div>
+                  <div><strong>Garage</strong><strong>{{listing.garage}}</strong></div>
+                  <div><strong>Pool</strong><strong>{{listing.pool | checkmark}}</strong></div>
+                  <div><strong>Spa</strong><strong>{{listing.spa | checkmark}}</strong></div>
+                  <div><strong>Year Built</strong><strong>{{listing.year_built}}</strong></div>
+                  <div><strong>SqFt Living</strong><strong>{{listing.sqft_live}}</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Land</h3>
+              </div>
+              <div class="panel-body">
+                <div class="toc">
+                  <div><strong>SqFt Lot</strong><strong>{{listing.sqft_lot}}</strong></div>
+                  <div><strong>Acres</strong><strong>{{listing.acres}}</strong></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Area</h3>
+              </div>
+              <div class="panel-body">
+                <div class="toc">
+                  <div><strong>Area Code</strong><strong class="pull-right">{{listing.area}}</strong></div>
+                  <div><strong>Subdivision</strong><strong>{{listing.subdiv}}</strong></div>
+                  <div><strong>Gated</strong><strong>{{listing.gated | checkmark}}</strong></div>
+                  <div><strong>Elementary</strong><strong>{{listing.school_elementary}}</strong></div>
+                  <div><strong>Mistrongle</strong><strong>{{listing.school_middle}}</strong></div>
+                  <div><strong>High</strong><strong>{{listing.school_high}}</strong></div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="form-group">
           <div class="col-sm-10">
-            <button ng-click="save(listing)">submit</button>
-            <button ng-click="delete(listing)">delete</button>
+            <button ng-click="save(listing)">Save</button>
+            <button ng-click="cancel()">Cancel</button>
           </div>
         </div>
       </div><!-- /panel-body -->
@@ -69,7 +120,7 @@
 </form>
 
 
-<table class="table table-striped table-bordered table-hover">
+<!-- <table class="table table-striped table-bordered table-hover">
   <thead>
       <tr>
           <th>Price</th>
@@ -98,11 +149,11 @@
     <td>{{lst.lastUpdateDate}}</td>
     <td>{{lst.lastUpdateId}}</td>
   </tr>
-</table>
+</table> -->
 
+<!--
 <span ng-click="increasePrice()">(+)</span>
 <span ng-click="decreasePrice()">(-)</span>
-<!--
 <ul class="listing-thumbs">
   <li ng-repeat="img in listing.images">
     <img ng-src="{{img}}" ng-click="setImage(img)">
@@ -110,56 +161,4 @@
 </ul>
 -->
 
-<div class="row">
-  <div class="col-sm-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Residence</h3>
-      </div>
-      <div class="panel-body">
-        <div class="toc">
-          <div><strong>Beds</strong><strong>{{listing.property.bed}}</strong></div>
-          <div><strong>Baths</strong><strong>{{listing.property.bath}}</strong></div>
-          <div><strong>Stories</strong><strong>{{listing.property.stories}}</strong></div>
-          <div><strong>Garage</strong><strong>{{listing.property.garage}}</strong></div>
-          <div><strong>Pool</strong><strong>{{listing.property.pool | checkmark}}</strong></div>
-          <div><strong>Spa</strong><strong>{{listing.property.spa | checkmark}}</strong></div>
-          <div><strong>Year Built</strong><strong>{{listing.property.yearBuilt}}</strong></div>
-          <div><strong>SqFt Living</strong><strong>{{listing.property.sqFtLiving}}</strong></div>
-        </div>
 
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Land</h3>
-      </div>
-      <div class="panel-body">
-        <div class="toc">
-          <div><strong>SqFt Lot</strong><strong>{{listing.property.sqFtLot}}</strong></div>
-          <div><strong>Acres</strong><strong>{{listing.property.acres}}</strong></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Area</h3>
-      </div>
-      <div class="panel-body">
-        <div class="toc">
-          <div><strong>Area Code</strong><strong class="pull-right">{{listing.property.areaCode}}</strong></div>
-          <div><strong>Subdivision</strong><strong>{{listing.property.subdivision}}</strong></div>
-          <div><strong>Gated</strong><strong>{{listing.property.gated | checkmark}}</strong></div>
-          <div><strong>Elementary</strong><strong>{{listing.property.schoolElementary}}</strong></div>
-          <div><strong>Mistrongle</strong><strong>{{listing.property.schoolMistrongle}}</strong></div>
-          <div><strong>High</strong><strong>{{listing.property.schoolHigh}}</strong></div>
-        </dl>
-      </div>
-    </div>
-  </div>
-</div>

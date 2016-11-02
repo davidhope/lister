@@ -26,14 +26,15 @@
     }
   ]);
 
-  listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
+  listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', '$location', 'ListingService','StatusTypeService',
     function($scope, $log, $routeParams, ListingService, StatusTypeService) {
 
       $scope.statusTypes = StatusTypeService.query();
 
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
       $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
-        $scope.mainImageUrl = listing.images[0];
+        //$scope.mainImageUrl = listing.images[0];
+        /*
         $scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
         $scope.currentPrice = $scope.listing.listingprice.reduce(
           function(prev, current) {
@@ -46,9 +47,13 @@
           });
 
         $log.log($scope.currentPrice);
+        */
       });
 
-
+      $scope.cancel = function(){
+        //console.log();
+        $location.url('/');
+      };
 
       $scope.save = function(listing){
         $log.log(listing);
