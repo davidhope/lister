@@ -24,7 +24,7 @@
           controller: 'ListingCtrl'
         }).
         // :mls comes from url and sends to the ListingDetailCtrl in $routeParams
-        when('/listings/:listingId', {
+        when('/listings/:id', {
           templateUrl: 'partials/listing-detail.html',
           controller: 'ListingDetailCtrl'
         }).

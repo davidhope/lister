@@ -11,8 +11,9 @@
     function($resource){
 
       //return $resource('listings/services/listing/:id');
+      //console.log($resource);
 
-      return $resource('services/listing/:mls',null,{
+      return $resource('services/listing/:id',null,{
         'GetByStatus': {method: 'GET',isArray: true}
       });
 

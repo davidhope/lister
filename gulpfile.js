@@ -16,10 +16,10 @@ var gulp = require('gulp'),
   //bower = require('gulp-bower-files');
   //replace = require('gulp-replace');
 
-gulp.task('default', ['lint','copy-images','styles','scripts'], function(){//'copy-html','copy-php',
+gulp.task('default', ['styles','scripts','copy-images'], function(){//'copy-html','copy-php','lint',
     
     gulp.watch('./sass/*.scss', ['styles']);
-    gulp.watch('./js/**/*.js',['lint','scripts']);
+    gulp.watch('./js/**/*.js',['scripts']);
     //gulp.watch('./index.html', ['copy-html']); // watches dev copy for changes and copies it to dist
     //gulp.watch('./fileUpload.html', ['copy-html']); // watches dev copy for changes and copies it to dist
     //gulp.watch('./partials/*.html', ['copy-html']); // watches dev copy for changes and copies it to dist
@@ -150,10 +150,10 @@ gulp.task('lint', function() {
 //Copy Images
 gulp.task('copy-images', function(){
   gulp.src('img/*')
-    .pipe(imagemin({
+    /*.pipe(imagemin({
       progressive: true,
       use:[pngquant()]
-    }))
+    }))*/
     .pipe(gulp.dest('assets/img'));
 });
 
