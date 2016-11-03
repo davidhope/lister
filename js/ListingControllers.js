@@ -33,6 +33,7 @@
 
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
       $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
+        console.log('here');
         //$scope.mainImageUrl = listing.images[0];
         /*
         $scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
