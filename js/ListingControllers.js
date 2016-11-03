@@ -26,33 +26,34 @@
     }
   ]);
 
-  listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', '$location', 'ListingService','StatusTypeService',
-    function($scope, $log, $routeParams, ListingService, StatusTypeService) {
+  listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', '$window', 'ListingService','StatusTypeService',
+    function($scope, $log, $routeParams, $window, ListingService, StatusTypeService) {
 
       $scope.statusTypes = StatusTypeService.query();
 
+      //console.log($routeParams.id);
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
-      $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
-        //$scope.mainImageUrl = listing.images[0];
-        /*
-        $scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
-        $scope.currentPrice = $scope.listing.listingprice.reduce(
-          function(prev, current) {
-            return (prev.listingPriceId > current.listingPriceId) ? prev : current;
-          });
+      $scope.listing = ListingService.get({id: $routeParams.id}, function(listing) {
+        // $scope.mainImageUrl = listing.images[0];
+        /**/
+        // $scope.currentPrice = Math.max.apply(Math,$scope.listing.price.map(function(lp){return lp;}));
+        // $scope.currentPrice = $scope.listing.price.reduce(
+        //   function(prev, current) {
+        //     return (prev.price > current.price) ? prev : current;
+        //   });
 
-        $scope.currentStatus = $scope.listing.listingstatus.reduce(
-          function(prev, current) {
-            return (prev.listingStatusId > current.listingStatusId) ? prev : current;
-          });
+        // $scope.currentStatus = $scope.listing.listingstatus.reduce(
+        //   function(prev, current) {
+        //     return (prev.listingStatusId > current.listingStatusId) ? prev : current;
+        //   });
 
-        $log.log($scope.currentPrice);
-        */
+        // $log.log($scope.currentPrice);
+        
       });
 
       $scope.cancel = function(){
         //console.log();
-        $location.url('/');
+        $window.location.href = '/';
       };
 
       $scope.save = function(listing){
