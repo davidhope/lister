@@ -5,15 +5,36 @@
 
   var listingControllers = angular.module('listingControllers', []);
   var homeControllers = angular.module('homeControllers', []);
+  var authControllers = angular.module('authControllers',[]);
 
-  homeControllers.controller('HomeCtrl', ['$scope',
-    //function($scope) {}
+  homeControllers.controller('HomeCtrl', ['$scope','$log',
+    function($scope, $log) {
+      $log.log('Home Controller');
+    }
+  ]);
+
+  authControllers.controller('AuthCtrl', ['$scope','$log', '$location', 'AuthProviderService',
+    function($scope, $log, $location, AuthProviderService){
+      //$log.log('authcontroller');
+
+      $scope.login = function(user){
+        AuthProviderService.setUser({'userId':123});
+        //$scope.user = AuthProviderService.get({email: $scope.user.email, password: }
+        $location.path('/');
+      };
+
+      $scope.logout = function(){
+        $scope.user = null;
+        $location.path('/login');
+      }
+    }
   ]);
 
   listingControllers.controller('ListingCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
     function($scope, $log, $routeParams, ListingService, StatusTypeService) {
 
       $scope.listings = ListingService.query();
+
       $scope.orderProp = 'address';
       $scope.statusFilter = '';
       $scope.statusTypes = StatusTypeService.query();
@@ -26,15 +47,15 @@
     }
   ]);
 
-  listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', '$window', 'ListingService','StatusTypeService',
-    function($scope, $log, $routeParams, $window, ListingService, StatusTypeService) {
+  listingControllers.controller('ListingDetailCtrl', ['$scope', '$log', '$routeParams', '$location', 'ListingService','StatusTypeService',
+    function($scope, $log, $routeParams, $location, ListingService, StatusTypeService) {
 
       $scope.statusTypes = StatusTypeService.query();
 
       //console.log($routeParams.id);
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
 
-      $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
+      $scope.listing = ListingService.get({id: $routeParams.id}, function(listing) {
 
         //$scope.mainImageUrl = listing.images[0];
         /*
@@ -56,7 +77,8 @@
 
       $scope.cancel = function(){
         //console.log();
-        $window.location.href = '/';
+        //$window.location.href = '/';
+        $location.path('/listings');
       };
 
       $scope.save = function(listing){
@@ -66,7 +88,7 @@
 
       $scope.delete = function(listing){
         $log.log(listing);
-        $scope.listing.$delete();
+        //$scope.listing.$delete();
       };
 
       $scope.setImage = function(imageUrl) {

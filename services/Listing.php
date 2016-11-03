@@ -2,9 +2,9 @@
 	include('..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'inc_master.php');
 
 	if(!isset($_SESSION[con_userid])){
-    	$_SESSION[con_userid] = 'dhope';
-		//ReturnJsonError("Session expired");
-		//exit;
+    	//$_SESSION[con_userid] = 'dhope';
+		ReturnUnauthorized();
+		exit;
 	}
 
 	switch ($_SERVER['REQUEST_METHOD']){

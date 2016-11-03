@@ -32,6 +32,12 @@
 		print(json_encode($err));
 	}
 
+	function ReturnUnauthorized(){
+		header('HTTP/1.1 401 Unauthorized', true, 401);
+		header('Content-Type: application/json');
+		print(json_encode('Access Denied.'));
+	}
+
     function arrayToDataTable(array $cols, array $rows) {
 
 	    if (!empty($rows) && !empty($cols)) {
@@ -101,7 +107,6 @@
 
 
 	function logout(){
-		unset($_SESSION[con_displayname]);
 		unset($_SESSION[con_userid]);
 		unset($_SESSION[con_timeout]);
 	}

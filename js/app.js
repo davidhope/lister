@@ -5,12 +5,16 @@
   var listingApp = angular.module('listingApp', [
     'ngRoute',
     'homeControllers',
+    'authControllers',
     'listingAnimations',
     'listingControllers',
     'listingFilters',
     'listingServices',
+    'authProviderServices',
     'statusTypeServices'
   ]);
+
+  
 
   listingApp.config(['$routeProvider',
     function($routeProvider) {
@@ -28,8 +32,29 @@
           templateUrl: 'partials/listing-detail.html',
           controller: 'ListingDetailCtrl'
         }).
+        when('/login', {
+          templateUrl: 'partials/login.html',
+          controller: 'AuthCtrl'
+        }).
         otherwise({
           redirectTo: '/'
         });
     }]);
+
+  listingApp.run(['$rootScope', '$location', '$log', 'AuthProviderService', 
+    function ($rootScope, $location, $log, AuthProviderService) {
+      $rootScope.$on('$routeChangeStart', function (event) {
+        $log.log(event);
+
+        //AuthProviderService.setUser({'userId':123});
+
+        if (!AuthProviderService.isLoggedIn()) {
+          $log.log('DENY : Redirecting to Login');
+          $location.path('/login');
+        }else {
+          $log.log(AuthProviderService.isLoggedIn());
+        }
+      });
+    }]);
+
 })();
