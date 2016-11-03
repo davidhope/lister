@@ -23,14 +23,20 @@
 
   authProviderServices.factory('AuthProviderService', ['$resource', 
     function($resource) {
-      var user;
-      return {
-        setUser : function(aUser){
-          user = aUser;
-        },
-        isLoggedIn : function(){
-          return(user) ? user : false;
-        }
-      };
+
+      // var user;
+      // return {
+      //   setUser : function(aUser){
+      //     user = aUser;
+      //   },
+      //   isLoggedIn : function(){
+      //     return(user) ? user : false;
+      //   }
+      // };
+
+      return $resource('services/user/:id',null,{
+        'login': {method: 'POST'},
+        'isAuthenticated': {method: 'GET'}
+      });
   }]);
 })();

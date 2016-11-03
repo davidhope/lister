@@ -48,11 +48,11 @@
 
         //AuthProviderService.setUser({'userId':123});
 
-        if (!AuthProviderService.isLoggedIn()) {
+        if (!AuthProviderService.isAuthenticated()) {
           $log.log('DENY : Redirecting to Login');
           $location.path('/login');
         }else {
-          $log.log(AuthProviderService.isLoggedIn());
+          $log.log(AuthProviderService.isAuthenticated());
         }
       });
     }]);

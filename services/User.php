@@ -1,9 +1,11 @@
 <?php
 	include('..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'inc_master.php');
 	if(!isset($_SESSION[con_userid])){
-		$_SESSION[con_userid] = 'dhope';
-		//ReturnUnauthorized();
+		//$_SESSION[con_userid] = 'dhope';
+		ReturnUnauthorized();
 		exit;
+	}else{
+		
 	}
 
 	switch ($_SERVER['REQUEST_METHOD']){
@@ -53,7 +55,6 @@
 				try{	
 
 					logout();
-
 					ReturnUnauthorized();
 					
 				}catch(Exception $e){
