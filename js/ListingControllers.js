@@ -33,7 +33,7 @@
 
       //console.log($routeParams.id);
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
-<<<<<<< HEAD
+
       $scope.listing = ListingService.get({id: $routeParams.listingId}, function(listing) {
 
         //$scope.mainImageUrl = listing.images[0];
@@ -52,7 +52,6 @@
         $log.log($scope.currentPrice);
         */
         
->>>>>>> c4d655630c291241778a7b0c79b6b46527a4a9a4
       });
 
       $scope.cancel = function(){
