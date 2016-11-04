@@ -148,6 +148,9 @@ Class UserInfo extends JsonDataObject
 
 				$_SESSION[con_userid] = $user->userId;
 				$_SESSION[con_timeout] = time() + con_timeoutlength;
+				$_SESSION['token'] = md5(uniqid(rand(), true));
+				
+				$user->token = $_SESSION['token'];
 
 				return $user;
 			}else{

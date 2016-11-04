@@ -51,10 +51,10 @@
               <span class="pull-right">{{listing.price | currency}}</span>
           </div>
           <!-- /.panel-heading -->
-          <div class="panel-body">
+          <div class="panel-body fixed-height-panel">
             <h3>{{listing.title}}</h3>
-            <p>{{listing.public_remarks}}</p>
-            <p>{{listing.description_long}}</p>
+            <p>{{listing.public_remarks | limitTo:250}}</p>
+            <p>{{listing.description_long | limitTo:250}}</p>
           </div>
         </div>
         <!--<a href="#/listings/{{listing.listingId}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>-->

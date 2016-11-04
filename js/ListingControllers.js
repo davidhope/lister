@@ -6,6 +6,22 @@
   var listingControllers = angular.module('listingControllers', []);
   var homeControllers = angular.module('homeControllers', []);
   var authControllers = angular.module('authControllers',[]);
+  var navControllers = angular.module('navControllers',[]);
+  var processingControllers = angular.module('processingControllers',[]);
+
+  navControllers.controller('NavCtrl', ['$rootScope','$log','$location','AuthProviderService',
+    function($rootScope, $log, $location, AuthProviderService){
+      $log.log('Nav Controller');
+
+      $rootScope.logout = function(){
+        $log.log('nav ctrl logging out');
+        $rootScope.user = null;
+        AuthProviderService.api.logout();
+        $location.path('/login');
+      }
+
+    }
+  ]);
 
   homeControllers.controller('HomeCtrl', ['$scope','$log',
     function($scope, $log) {
@@ -13,20 +29,86 @@
     }
   ]);
 
-  authControllers.controller('AuthCtrl', ['$scope','$log', '$location', 'AuthProviderService',
-    function($scope, $log, $location, AuthProviderService){
-      //$log.log('authcontroller');
 
-      $scope.login = function(user){
-        AuthProviderService.setUser({'userId':123});
-        //$scope.user = AuthProviderService.get({email: $scope.user.email, password: }
+  processingControllers.controller('ProcessingCtrl', ['$scope','$log', 'ProcessingService',
+    function($scope, $log, ProcessingService) {
+      $log.log('Processing Controller');
+
+      var init = function(){
+        $scope.step1 = false;
+        $scope.step2 = false;
+        $scope.step3 = false;
+        $scope.step4 = false;
+        $scope.step5 = false;
+        $scope.step6 = false;
+        $scope.step7 = false;
+        $scope.step8 = false;
+        $scope.step9 = false;
+      }
+        
+      $scope.beginProcessing = function(){
+        $log.log('Processing Started');
+
+        $scope.step1 = ProcessingService.step1();
+        $log.log('step1 Started');
+        $scope.apply();
+        $scope.step2 = ProcessingService.step2();
+        $log.log('step2 Started');
+        $scope.apply();
+        $scope.step3 = ProcessingService.step3();
+        $log.log('step3 Started');
+        $scope.apply();
+        $scope.step4 = ProcessingService.step4();
+        $log.log('step4 Started');
+        $scope.apply();
+        $scope.step5 = ProcessingService.step5();
+        $log.log('step5 Started');
+        $scope.apply();
+        $scope.step6 = ProcessingService.step6();
+        $log.log('step6 Started');
+        $scope.apply();
+        $scope.step7 = ProcessingService.step7();
+        $log.log('step7 Started');
+        $scope.apply();
+        $scope.step8 = ProcessingService.step8();
+        $log.log('step8 Started');
+        $scope.apply();
+        $scope.step9 = ProcessingService.step9();
+        $log.log('step9 Started');
+        $scope.apply();
+
+
+        $log.log('Processing complete');
+      };
+
+      init();
+    }
+  ]);
+
+  authControllers.controller('AuthCtrl', ['$rootScope','$log', '$location', 'AuthProviderService',
+    function($rootScope, $log, $location, AuthProviderService){
+      $log.log('authcontroller');
+
+      var init = function(){
+        if($rootScope.user == null){
+          $rootScope.user = {email:null, password:null, token:null};
+        }
+      }
+        
+      $rootScope.login = function(){
+        $log.log('authcontroller logging in');
+        //$scope.user = AuthProviderService.setUser({'userId':123});
+        $rootScope.user = AuthProviderService.api.login({email: $rootScope.email, password: $rootScope.password});
         $location.path('/');
       };
 
-      $scope.logout = function(){
-        $scope.user = null;
+      $rootScope.logout = function(){
+        $log.log('authcontroller logging out');
+        $rootScope.user = null;
         $location.path('/login');
       }
+
+      init();
     }
   ]);
 

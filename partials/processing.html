@@ -1,0 +1,23 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">MLS Processing</h3>
+    </div>
+    <div class="panel-body">
+
+        <button type='button' ng-click="beginProcessing()" class="btn btn-lg btn-success btn-block"><span class="fa fa-cog"></span> Process MLS Data</button>
+        
+        <hr>
+
+        <div class="toc">
+          <div><strong>1. Import Files</strong><strong>{{step1 | checkmark}}</strong></div>
+          <div><strong>2. Rename Images</strong><strong>{{step2 | checkmark}}</strong></div>
+          <div><strong>3. Process Sold Listings</strong><strong>{{step3 | checkmark}}</strong></div>
+          <div><strong>4. Process Expired Listings</strong><strong>{{step4 | checkmark}}</strong></div>
+          <div><strong>5. Update Prices</strong><strong>{{step5 | checkmark}}</strong></div>
+          <div><strong>6. Insert New TLG Listings</strong><strong>{{step6 | checkmark}}</strong></div>
+          <div><strong>7. Expire Old TLG Listings</strong><strong>{{step7 | checkmark}}</strong></div>
+          <div><strong>8. Delete Expired Photos</strong><strong>{{step8 | checkmark}}</strong></div>
+          <div><strong>9. Clear Extra MLS Pics</strong><strong>{{step9 | checkmark}}</strong></div>
+        </div>
+    </div>
+</div>  

@@ -4,13 +4,16 @@
   /* App Module */
   var listingApp = angular.module('listingApp', [
     'ngRoute',
+    'navControllers',
     'homeControllers',
+    'processingControllers',
     'authControllers',
     'listingAnimations',
     'listingControllers',
     'listingFilters',
     'listingServices',
     'authProviderServices',
+    'processingServices',
     'statusTypeServices'
   ]);
 
@@ -36,6 +39,10 @@
           templateUrl: 'partials/login.html',
           controller: 'AuthCtrl'
         }).
+        when('/processing', {
+          templateUrl: 'partials/processing.html',
+          controller: 'ProcessingCtrl'
+        }).
         otherwise({
           redirectTo: '/'
         });
@@ -43,16 +50,32 @@
 
   listingApp.run(['$rootScope', '$location', '$log', 'AuthProviderService', 
     function ($rootScope, $location, $log, AuthProviderService) {
+
+      // $rootScope.login = function(user){
+      //   $log.log('logging in');
+      //   AuthProviderService.setUser({'userId':123});
+
+      //   //$rootScope.user = AuthProviderService.get({email: $rootScope.user.email, password: }
+      //   $location.path('/');
+      // };
+
+      // $rootScope.logout = function(){
+      //   $log.log('logging out');
+      //   AuthProviderService.setUser(null);
+      //   $rootScope.user = null;
+      //   $location.path('/login');
+      // }
+
       $rootScope.$on('$routeChangeStart', function (event) {
-        $log.log(event);
+        $log.log($rootScope.user);
 
         //AuthProviderService.setUser({'userId':123});
 
-        if (!AuthProviderService.isAuthenticated()) {
+        if (!AuthProviderService.isAuthenticated($rootScope.user.token)) {
           $log.log('DENY : Redirecting to Login');
           $location.path('/login');
         }else {
-          $log.log(AuthProviderService.isAuthenticated());
+          //$log.log(AuthProviderService.isAuthenticated());
         }
       });
     }]);

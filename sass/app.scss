@@ -101,3 +101,9 @@ div.toc{
   strong{float:right;}
   strong:first-child{float:left}
 }
+
+div.fixed-height-panel{
+  min-height: 10em;
+  max-height: 10em;
+  overflow-y: hidden;
+}
