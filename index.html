@@ -43,23 +43,8 @@
             </div>
             <!-- /.navbar-header -->
 
-            <ul class="nav navbar-top-links pull-right">
+            <ul class="nav navbar-top-links pull-right" ng-hide="user.token == null">
                 <li><a ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
-
-                <!-- /.dropdown 
-                <li class="dropdown" ng-mouseenter="showPanel=true" ng-mouseleave="showPanel=false">
-                    <a class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user" ng-show="showPanel">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
-                        <li class="divider"></li>
-                        
-                    </ul>
-                </li>
-                - /.dropdown -->
-
             </ul>
             <!-- /.navbar-top-links -->
 

@@ -67,11 +67,12 @@
       // }
 
       $rootScope.$on('$routeChangeStart', function (event) {
-        $log.log($rootScope.user);
+
+        //$log.log('is auth: ' + AuthProviderService.isAuthenticated({token:'asdf'}));
 
         //AuthProviderService.setUser({'userId':123});
 
-        if (!AuthProviderService.isAuthenticated($rootScope.user.token)) {
+        if (!$rootScope.user || !AuthProviderService.isAuthenticated($rootScope.user.token)) {
           $log.log('DENY : Redirecting to Login');
           $location.path('/login');
         }else {

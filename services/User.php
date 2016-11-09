@@ -3,7 +3,11 @@
 	
 
 	if(isset($_GET['isAuthenticated'])){
-		ReturnJsonSuccess($_SESSION['token'] == $_GET['isAuthenticated']);
+		if(isset($_SESSION['token'])){
+			ReturnJsonSuccess($_SESSION['token'] == $_GET['isAuthenticated']);
+		}else{
+			ReturnJsonSuccess(false);
+		}
 		//ReturnJsonSuccess('isauthenticated');
 		exit;
 	}

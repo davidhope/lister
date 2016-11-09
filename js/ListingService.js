@@ -41,36 +41,14 @@
     }
   ]);
 
-  authProviderServices.factory('AuthProviderService', ['$resource', 
-    
-    function($resource) {
+  authProviderServices.factory('AuthProviderService', ['$resource','$log',
+    function($resource, $log) {
 
-      // var user;
-      // return {
-      //   setUser : function(aUser){
-      //     user = aUser;
-      //     return user;
-      //   },
-      //   isAuthenticated : function(){
-      //     return(user) ? user : false;
-      //   }
-      // };
-      return {
-
-        isAuthenticated : function(token){
-          return $resource('services/user/isAuthenticated/' + token);
-        },
-
-        api : function(){
-          return $resource('services/user/:id',null,{
-                            'login': {method: 'POST'},
-                            'isAuthenticated': {method: 'GET'},
-                            'logout':{method: 'post'}
-                          });
-        }
-
-      }
-
+      return $resource('services/user/:id',null,{
+                        'login': {url: 'services/user/login', method: 'POST'},
+                        'isAuthenticated': {url: 'services/user/isAuthenticated/:token',method: 'GET'},
+                        'logout':{method: 'post'}
+                      });
 
   }]);
 })();

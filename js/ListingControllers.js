@@ -16,7 +16,7 @@
       $rootScope.logout = function(){
         $log.log('nav ctrl logging out');
         $rootScope.user = null;
-        AuthProviderService.api.logout();
+        AuthProviderService.logout();
         $location.path('/login');
       }
 
@@ -85,28 +85,40 @@
     }
   ]);
 
-  authControllers.controller('AuthCtrl', ['$rootScope','$log', '$location', 'AuthProviderService',
-    function($rootScope, $log, $location, AuthProviderService){
-      $log.log('authcontroller');
+  authControllers.controller('AuthCtrl', ['$rootScope','$scope','$log', '$location', 'AuthProviderService',
+    function($rootScope, $scope, $log, $location, AuthProviderService){
+      //$log.log('authcontroller');
 
       var init = function(){
         if($rootScope.user == null){
           $rootScope.user = {email:null, password:null, token:null};
+          $scope.failedAttempt = false;
         }
       }
         
-      $rootScope.login = function(){
-        $log.log('authcontroller logging in');
-        //$scope.user = AuthProviderService.setUser({'userId':123});
-        $rootScope.user = AuthProviderService.api.login({email: $rootScope.email, password: $rootScope.password});
-        $location.path('/');
-      };
+      $scope.login = function(){
+        $log.log('authcontroller logging in: ' + $scope.email + ' - '  + $scope.password);
 
-      $rootScope.logout = function(){
-        $log.log('authcontroller logging out');
-        $rootScope.user = null;
-        $location.path('/login');
-      }
+        $rootScope.user = AuthProviderService.login([],{email: $scope.email, password: $scope.password}, successCb, errorCb);
+
+        //$log.log($rootScope.user);
+
+
+        if($rootScope.user != undefined){
+          $location.path('/');
+        }else{
+          $scope.failedAttempt = true;
+        }
+
+        function successCb(data){
+          $log.log(data);
+        }
+
+
+        function errorCb(data){
+          $log.warn(data);
+        }
+      };
 
       init();
     }
@@ -122,8 +134,8 @@
       $scope.statusTypes = StatusTypeService.query();
 
       $scope.getByStatus = function(){
-        $log.log($scope.statusFilter);
-        //$scope.listings = ListingService.GetByStatus({status:$scope.statusFilter});
+        //$log.log($scope.statusFilter);
+        $scope.listings = ListingService.GetByStatus({status:$scope.statusFilter});
       };
 
     }
