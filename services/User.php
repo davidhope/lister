@@ -30,6 +30,7 @@
 
 		}catch(Exception $e){
 			ReturnJsonError($e->getMessage());
+
 		}
 		exit;
 	}
@@ -76,6 +77,7 @@
 					ReturnJsonSuccess($res);
 				}catch(Exception $e){
 					ReturnJsonError($e->getMessage());
+
 				}
 				break;
 	    default:
