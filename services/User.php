@@ -29,7 +29,6 @@
 			}catch(Exception $e){
 				ReturnJsonError($e->getMessage());
 			}
-			break;
 		}else{
 			ReturnUnauthorized();
 		}
@@ -75,8 +74,8 @@
 					}catch(Exception $e){
 						ReturnJsonError($e->getMessage());
 					}
-					break;
 				}
+				break;
 	    default:
 			ReturnUnauthorized();
 			break;
