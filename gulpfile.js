@@ -95,7 +95,8 @@ gulp.task('bower', function() {
   'bower_components/flot/jquery.flot.pie.js',
   'bower_components/flot/jquery.flot.resize.js',
   'bower_components/flot/jquery.flot.time.js',
-  'bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js'])
+  'bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js',
+  'bower_components/ngstorage/ngStorage.min.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('vendor.min.js'))
     .pipe(sourcemaps.write('maps'))

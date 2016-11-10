@@ -39,5 +39,8 @@
     "angular-route": "^1.5.8",
     "angular-resource": "^1.5.8",
     "angular-animate": "^1.5.8"
+  },
+  "devDependencies": {
+    "ngstorage": "^0.3.11"
   }
 }

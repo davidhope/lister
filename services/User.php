@@ -4,7 +4,7 @@
 
 	if(isset($_GET['isAuthenticated'])){
 		if(isset($_SESSION['token'])){
-			ReturnJsonSuccess($_SESSION['token'] == $_GET['isAuthenticated']);
+			ReturnJsonSuccess($_SESSION['token'] == $_GET['token']);
 		}else{
 			ReturnJsonSuccess(false);
 		}
@@ -12,29 +12,40 @@
 		exit;
 	}
 
-	if(!isset($_SESSION['token'])){
-		//$_SESSION[con_userid] = 'dhope';
-		if(isset($_POST['login'])){
-			try{	
+	if(isset($_GET['login'])){
+		try{	
 
-				$email = $_POST['email'];
-				$pass = $_POST['password'];
+			$req = json_decode(file_get_contents('php://input'));
 
-				$user = new UserInfo;
+			$email = $req->email;
+			$pass = $req->password;
+			
+			//ReturnJsonSuccess($pass);
+			//exit;
+			$user = new UserInfo;
 
-				$user = $user->AuthenticateUser($email, $pass);
-				
-				ReturnJsonSuccess($user);
+			$user = $user->AuthenticateUser($email, $pass);
+			
+			ReturnJsonSuccess($user);
 
-			}catch(Exception $e){
-				ReturnJsonError($e->getMessage());
-			}
-			break;
-		}else{
-			ReturnUnauthorized();
+		}catch(Exception $e){
+			ReturnJsonError($e->getMessage());
 		}
 		exit;
-	}else{ //user is logged in
+	}
+
+	if(isset($_GET['logout'])){
+		try{	
+			logout();
+			ReturnJsonSuccess('Logged Out');
+		}catch(Exception $e){
+			ReturnJsonError($e->getMessage());
+		}
+		exit;
+	}
+
+	if(isset($_SESSION['token'])){
+		//$_SESSION[con_userid] = 'dhope';
 		switch ($_SERVER['REQUEST_METHOD']){
 			case 'GET';
 				if(isset($_GET['id'])){
@@ -57,26 +68,16 @@
 				}
 				break;
 			case 'POST';
-				if(isset($_POST['logout'])){
-					try{	
-						logout();
-						ReturnJsonSuccess('Logged Out');
-					}catch(Exception $e){
-						ReturnJsonError($e->getMessage());
-					}
-					break;
-				}else{
-					try{
-						$obj = new UserInfo;
-						$post = file_get_contents('php://input');
-						$obj = json_decode($post);
-						$res = $obj->save();
-						ReturnJsonSuccess($res);
-					}catch(Exception $e){
-						ReturnJsonError($e->getMessage());
-					}
-					break;
+				try{
+					$obj = new UserInfo;
+					$post = file_get_contents('php://input');
+					$obj = json_decode($post);
+					$res = $obj->save();
+					ReturnJsonSuccess($res);
+				}catch(Exception $e){
+					ReturnJsonError($e->getMessage());
 				}
+				break;
 	    default:
 			ReturnUnauthorized();
 			break;

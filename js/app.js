@@ -4,6 +4,7 @@
   /* App Module */
   var listingApp = angular.module('listingApp', [
     'ngRoute',
+    'ngStorage',
     'navControllers',
     'homeControllers',
     'processingControllers',
@@ -48,35 +49,14 @@
         });
     }]);
 
-  listingApp.run(['$rootScope', '$location', '$log', 'AuthProviderService', 
-    function ($rootScope, $location, $log, AuthProviderService) {
-
-      // $rootScope.login = function(user){
-      //   $log.log('logging in');
-      //   AuthProviderService.setUser({'userId':123});
-
-      //   //$rootScope.user = AuthProviderService.get({email: $rootScope.user.email, password: }
-      //   $location.path('/');
-      // };
-
-      // $rootScope.logout = function(){
-      //   $log.log('logging out');
-      //   AuthProviderService.setUser(null);
-      //   $rootScope.user = null;
-      //   $location.path('/login');
-      // }
+  listingApp.run(['$rootScope','$location','$log','$sessionStorage','AuthProviderService', 
+    function ($rootScope, $location, $log, $sessionStorage, AuthProviderService) {
+      $rootScope.$storage = $sessionStorage; 
 
       $rootScope.$on('$routeChangeStart', function (event) {
-
-        //$log.log('is auth: ' + AuthProviderService.isAuthenticated({token:'asdf'}));
-
-        //AuthProviderService.setUser({'userId':123});
-
-        if (!$rootScope.user || !AuthProviderService.isAuthenticated($rootScope.user.token)) {
+        if (!$rootScope.$storage.user || !AuthProviderService.isAuthenticated({token:$rootScope.$storage.user.token})) {
           $log.log('DENY : Redirecting to Login');
           $location.path('/login');
-        }else {
-          //$log.log(AuthProviderService.isAuthenticated());
         }
       });
     }]);

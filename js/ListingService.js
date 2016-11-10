@@ -46,8 +46,8 @@
 
       return $resource('services/user/:id',null,{
                         'login': {url: 'services/user/login', method: 'POST'},
-                        'isAuthenticated': {url: 'services/user/isAuthenticated/:token',method: 'GET'},
-                        'logout':{method: 'post'}
+                        'isAuthenticated': {url: 'services/user/isAuthenticated/token/:token',method: 'GET'},
+                        'logout':{url: 'services/user/logout', method: 'GET'}
                       });
 
   }]);

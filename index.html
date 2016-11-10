@@ -43,12 +43,12 @@
             </div>
             <!-- /.navbar-header -->
 
-            <ul class="nav navbar-top-links pull-right" ng-hide="user.token == null">
+            <ul class="nav navbar-top-links pull-right" ng-hide="$storage.user.token == null">
                 <li><a ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation" ng-hide="user.token == null">
+            <div class="navbar-default sidebar" role="navigation" ng-hide="$storage.user.token == null">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li><a href="#/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>

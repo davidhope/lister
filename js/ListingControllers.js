@@ -9,15 +9,19 @@
   var navControllers = angular.module('navControllers',[]);
   var processingControllers = angular.module('processingControllers',[]);
 
-  navControllers.controller('NavCtrl', ['$rootScope','$log','$location','AuthProviderService',
-    function($rootScope, $log, $location, AuthProviderService){
-      $log.log('Nav Controller');
+  navControllers.controller('NavCtrl', ['$rootScope','$log','$location','$sessionStorage','AuthProviderService',
+    
+    function($rootScope, $log, $location, $sessionStorage, AuthProviderService){
+
+      var init = function(){
+        $rootScope.$storage = $sessionStorage; 
+      }
 
       $rootScope.logout = function(){
         $log.log('nav ctrl logging out');
-        $rootScope.user = null;
-        AuthProviderService.logout();
+        $rootScope.$storage.$reset();
         $location.path('/login');
+        AuthProviderService.logout();
       }
 
     }
@@ -25,7 +29,7 @@
 
   homeControllers.controller('HomeCtrl', ['$scope','$log',
     function($scope, $log) {
-      $log.log('Home Controller');
+      // $log.log('Home Controller');
     }
   ]);
 
@@ -85,38 +89,32 @@
     }
   ]);
 
-  authControllers.controller('AuthCtrl', ['$rootScope','$scope','$log', '$location', 'AuthProviderService',
-    function($rootScope, $scope, $log, $location, AuthProviderService){
+  authControllers.controller('AuthCtrl', ['$rootScope','$scope','$log','$location','$localStorage','$sessionStorage','AuthProviderService',
+    function($rootScope, $scope, $log, $location, $localStorage, $sessionStorage, AuthProviderService){
       //$log.log('authcontroller');
-
+      //$rootScope.$storage = $sessionStorage; 
+       
       var init = function(){
-        if($rootScope.user == null){
-          $rootScope.user = {email:null, password:null, token:null};
-          $scope.failedAttempt = false;
+        $scope.failedAttempt = false;
+
+        if($rootScope.$storage.user == null){
+          $scope.email = '';
+          $scope.password = '';
         }
       }
         
       $scope.login = function(){
         $log.log('authcontroller logging in: ' + $scope.email + ' - '  + $scope.password);
-
-        $rootScope.user = AuthProviderService.login([],{email: $scope.email, password: $scope.password}, successCb, errorCb);
-
-        //$log.log($rootScope.user);
-
-
-        if($rootScope.user != undefined){
-          $location.path('/');
-        }else{
-          $scope.failedAttempt = true;
-        }
+        $rootScope.$storage.user = AuthProviderService.login({email: $scope.email, password: $scope.password}, successCb, errorCb);
 
         function successCb(data){
-          $log.log(data);
+          $log.log('success: ' + data);
+          $location.path('/');
         }
 
-
         function errorCb(data){
-          $log.warn(data);
+          $log.warn('error: ' + data);
+          $scope.failedAttempt = true;
         }
       };
 
