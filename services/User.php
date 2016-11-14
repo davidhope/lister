@@ -3,12 +3,11 @@
 	
 
 	if(isset($_GET['isAuthenticated'])){
-		if(isset($_SESSION['token'])){
+		if(isset($_SESSION['token']) && isset($_GET['token'])){
 			ReturnJsonSuccess($_SESSION['token'] == $_GET['token']);
 		}else{
 			ReturnJsonSuccess(false);
 		}
-		//ReturnJsonSuccess('isauthenticated');
 		exit;
 	}
 
@@ -19,9 +18,7 @@
 
 			$email = $req->email;
 			$pass = $req->password;
-			
-			//ReturnJsonSuccess($pass);
-			//exit;
+
 			$user = new UserInfo;
 
 			$user = $user->AuthenticateUser($email, $pass);

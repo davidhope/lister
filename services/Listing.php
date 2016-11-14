@@ -1,7 +1,7 @@
 <?php
 	include('..' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'inc_master.php');
 
-	if(!isset($_SESSION[con_userid])){
+	if(!isset($_SESSION['token'])){
     	//$_SESSION[con_userid] = 'dhope';
 		ReturnUnauthorized();
 		exit;

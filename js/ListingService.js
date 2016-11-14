@@ -37,7 +37,6 @@
         'stepEight': {method: 'POST', params: {step:'8'}},
         'stepNine': {method: 'POST', params: {step:'9'}},
       });
-
     }
   ]);
 

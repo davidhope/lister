@@ -24,8 +24,10 @@
     function($routeProvider) {
       $routeProvider.
         when('/', {
-          templateUrl: 'partials/index.html',
-          controller: 'HomeCtrl'
+          // templateUrl: 'partials/index.html',
+          // controller: 'HomeCtrl'
+          templateUrl: 'partials/listings.html',
+          controller: 'ListingCtrl'
         }).
         when('/listings', {
           templateUrl: 'partials/listings.html',
