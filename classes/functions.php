@@ -22,7 +22,14 @@
 		//http_response_code(200);
 		header('HTTP/1.1 200 OK', true, 200);
 		header('Content-Type: application/json');
-		print(json_encode($json));
+		/*
+			JSON_PARTIAL_OUTPUT_ON_ERROR addresses issue of IIS on godaddy not returning data when there's an issue with encoding.
+			Shouldn't be necessary on Apache
+		*/
+		//Apache
+		//print(json_encode($json)); 
+		//Windows IIS
+		print(json_encode($json,JSON_PARTIAL_OUTPUT_ON_ERROR)); 
 	}
 
 	function ReturnJsonError($err){

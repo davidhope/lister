@@ -124,11 +124,17 @@
 
   listingControllers.controller('ListingCtrl', ['$scope', '$log', '$routeParams', 'ListingService','StatusTypeService',
     function($scope, $log, $routeParams, ListingService, StatusTypeService) {
+      $scope.loaded = false;
 
-      $scope.listings = ListingService.query();
+      $log.log('query started');
+      $scope.listings = ListingService.query(function(data){
+        $scope.loaded = true;
+        $log.log('query complete');
+      });
 
       $scope.orderProp = 'address';
       $scope.statusFilter = '';
+
       $scope.statusTypes = StatusTypeService.query();
 
       $scope.getByStatus = function(){
@@ -148,7 +154,7 @@
       //$routeParams.mls comes from app.js route for ListingDetailCtrl
 
       $scope.listing = ListingService.get({id: $routeParams.id}, function(listing) {
-
+        $scope.toggleMessage = false;
         //$scope.mainImageUrl = listing.images[0];
         /*
         $scope.currentPrice = Math.max.apply(Math,$scope.listing.listingprice.map(function(lp){return lp;}));
@@ -175,7 +181,16 @@
 
       $scope.save = function(listing){
         $log.log(listing);
-        $scope.listing.$save();
+        $scope.listing.$save(function(data){
+                              $scope.toggleMessage = true;
+                              $scope.message = 'Saved Successfully';
+                              $scope.messageClass = 'fade-in alert alert-success';
+                            },
+                            function(err){
+                              $scope.toggleMessage = true;
+                              $scope.message = err.data;
+                              $scope.messageClass = 'fade-in alert alert-danger';
+                            });
       };
 
       $scope.delete = function(listing){

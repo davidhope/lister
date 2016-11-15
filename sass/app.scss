@@ -1,4 +1,6 @@
 @import "variables.scss";
+@import "animations.scss";
+@import "mixins.scss";
 
 body {}
 
@@ -107,3 +109,7 @@ div.fixed-height-panel{
   max-height: 10em;
   overflow-y: hidden;
 }
+
+
+.fade-in{@include fade(0.5s);display:block}
+.fade-out{@include fade(0.5s);display:none}

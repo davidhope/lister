@@ -7,6 +7,16 @@
 </div>
 -->
 
+
+<div class="row">
+  <div class="col-sm-12">
+    <button type='button' ng-click="cancel()" class="btn btn-lg btn-primary">Back to Listings</button>
+  </div>
+</div>
+
+<!-- <button type='button' ng-click="toggleMessage=true;messageClass='fade-in alert alert-success'" class="btn btn-lg btn-primary">toggle</button> -->
+<br>
+
 <form name="frmListing">
   <div class="row">
     <div class="panel panel-primary">
@@ -16,37 +26,34 @@
       <div class="panel-body">
         <div class="form-group row">
           <label class="col-sm-2 control-label">MLS: </label>
-          <div class="col-sm-10"><span class="form-control">{{listing.mls}}</span></div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 control-label" for="txtTitle">Title: </label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" required id="txtTitle" name="txtTitle" ng-model="listing.title" />
-          </div>
+          <div class="col-sm-10"><span>{{listing.mls}}</span></div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtAddress">Address: </label>
           <div class="col-sm-10">
-            <span class="form-control">{{listing.address}}</span>
-            <!-- <input type="text" class="form-control" required id="txtAddress" name="txtAddress" ng-model="listing.address" /> -->
+            <span>{{listing.address}}</span>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtParcel">Parcel: </label>
           <div class="col-sm-10">
-            <span class="form-control">{{listing.parcel}}</span>
-            <!-- <input type="text" class="form-control" required id="txtParcel" name="txtParcel" ng-model="listing.parcel" readonly /> -->
+            <span>{{listing.parcel}}</span>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 control-label" for="txtPrice">Price: </label>
           <div class="col-sm-4">
-            <span class="form-control">{{listing.price}}</span>
-            <!-- <input type="text" class="form-control" required id="txtPrice" name="txtPrice" ng-model="listing.price" /> -->
+            <span>{{listing.price | currency}}</span>
           </div>
-          <label class="col-sm-2 control-label" for="chkFrontPage">Reduced: </label>
+          <label class="col-sm-1 control-label" for="chkFrontPage">Reduced: </label>
           <div class="col-sm-1">
             <input type="checkbox" name="chkReduced" disabled ng-model="listing.reduced" class="form-control"></input>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 control-label" for="txtTitle">Title: </label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" required id="txtTitle" name="txtTitle" ng-model="listing.title" />
           </div>
         </div>
         <div class="form-group row">
@@ -146,6 +153,11 @@
           </div>
         </div>
         <div class="form-group">
+          <div ng-show="toggleMessage">
+            <div ng-class="messageClass" role="alert">
+              {{message}}
+            </div>
+          </div>          
           <div class="col-sm-10">
             <button ng-click="save(listing)" class="btn btn-lg btn-success">Save</button>
             <button type='button' ng-click="cancel()" class="btn btn-lg btn-danger">Cancel</button>
@@ -155,47 +167,3 @@
     </div><!-- /panel panel-primary -->
   </div><!-- /row -->
 </form>
-
-
-<!-- <table class="table table-striped table-bordered table-hover">
-  <thead>
-      <tr>
-          <th>Price</th>
-          <th>Date</th>
-          <th>Update By</th>
-      </tr>
-  </thead>
-  <tr ng-repeat="lp in listing.listingprice">
-    <td>{{lp.price}}</td>
-    <td>{{lp.lastUpdateDate}}</td>
-    <td>{{lp.lastUpdateId}}</td>
-  </tr>
-</table>
-
-
-<table class="table table-striped table-bordered table-hover">
-  <thead>
-      <tr>
-          <th>Status</th>
-          <th>Date</th>
-          <th>Update By</th>
-      </tr>
-  </thead>
-  <tr ng-repeat="lst in listing.listingstatus">
-    <td>{{lst.statusTypeId}}</td>
-    <td>{{lst.lastUpdateDate}}</td>
-    <td>{{lst.lastUpdateId}}</td>
-  </tr>
-</table> -->
-
-<!--
-<span ng-click="increasePrice()">(+)</span>
-<span ng-click="decreasePrice()">(-)</span>
-<ul class="listing-thumbs">
-  <li ng-repeat="img in listing.images">
-    <img ng-src="{{img}}" ng-click="setImage(img)">
-  </li>
-</ul>
--->
-
-

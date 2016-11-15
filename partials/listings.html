@@ -1,63 +1,70 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title">Search</h3>
-        </div>
-        <div class="panel-body">
-          <input ng-model="query" class="form-control" placeholder="Enter Search Text">
-        </div>
-      </div>
+  <div class="row" ng-show="!loaded">
+    <div class="col-md-12">
+      <h2><span class="fa fa-spinner fa-pulse fa-fw"></span>&nbsp;Loading...</h2>
     </div>
-    <div class="col-md-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title">Sort By</h3>
-        </div>
-        <div class="panel-body">
-          <select ng-model="orderProp" class="form-control">
-            <option value="address">Alphabetical</option>
-            <option value="price">Price</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title">Status Filter</h3>
-        </div>
-        <div class="panel-body">
-          <select ng-model="statusFilter" class="form-control">
-            <option value=""></option>
-            <option ng-repeat="st in statusTypes" value="{{st.name}}">{{st.name}}</option>
-          </select>
-        </div> 
-      </div>
-    </div>
-    <!-- <div class="col-md-3">
-      <a href="#/listings/0" class="btn btn-lg btn-success btn-block"><span class="fa fa-plus"></span> New Listing</a>
-    </div> -->
   </div>
-
-  <div class="row">
-    <div class="col-md-12 col-lg-6" ng-repeat="listing in listings | filter:query | filter: {status:statusFilter} | orderBy:orderProp" >
-      <!--Body content-->
-        <!-- filter on client -->
-        <div class="panel panel-default"class="thumbnail mls-listing">
+  <div ng-show="loaded">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="panel panel-primary">
           <div class="panel-heading">
-              <a href="#/listings/{{listing.mls}}">{{listing.mls}} - {{listing.address}}</a>
-              <span class="pull-right">{{listing.price | currency}}</span>
+            <h3 class="panel-title">Search</h3>
           </div>
-          <!-- /.panel-heading -->
-          <div class="panel-body fixed-height-panel">
-            <h3>{{listing.title}}</h3>
-            <p>{{listing.public_remarks | limitTo:250}}</p>
-            <p>{{listing.description_long | limitTo:250}}</p>
+          <div class="panel-body">
+            <input ng-model="query" class="form-control" placeholder="Enter Search Text">
           </div>
         </div>
-        <!--<a href="#/listings/{{listing.listingId}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>-->
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Sort By</h3>
+          </div>
+          <div class="panel-body">
+            <select ng-model="orderProp" class="form-control">
+              <option value="address">Alphabetical</option>
+              <option value="price">Price</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Status Filter</h3>
+          </div>
+          <div class="panel-body">
+            <select ng-model="statusFilter" class="form-control">
+              <option value=""></option>
+              <option ng-repeat="st in statusTypes" value="{{st.name}}">{{st.name}}</option>
+            </select>
+          </div> 
+        </div>
+      </div>
+      <!-- <div class="col-md-3">
+        <a href="#/listings/0" class="btn btn-lg btn-success btn-block"><span class="fa fa-plus"></span> New Listing</a>
+      </div> -->
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 col-lg-6" ng-repeat="listing in listings | filter:query | filter: {status:statusFilter} | orderBy:orderProp" >
+        <!--Body content-->
+          <!-- filter on client -->
+          <div class="panel panel-default"class="thumbnail mls-listing">
+            <div class="panel-heading">
+                <a href="#/listings/{{listing.mls}}">{{listing.mls}} - {{listing.address}}</a>
+                <span class="pull-right">{{listing.price | currency}}</span>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body fixed-height-panel">
+              <h3>{{listing.title}}</h3>
+              <p>{{listing.public_remarks | limitTo:250}}</p>
+              <p>{{listing.description_long | limitTo:250}}</p>
+            </div>
+          </div>
+          <!--<a href="#/listings/{{listing.listingId}}" class="thumb"><img ng-src="{{listing.imageUrl}}" alt="{{listing.address}}"></a>-->
+      </div>
     </div>
   </div>
 </div>
