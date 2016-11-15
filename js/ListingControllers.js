@@ -7,6 +7,7 @@
   var homeControllers = angular.module('homeControllers', []);
   var authControllers = angular.module('authControllers',[]);
   var navControllers = angular.module('navControllers',[]);
+  var salesListControllers = angular.module('salesListControllers',[]);
   var processingControllers = angular.module('processingControllers',[]);
 
   navControllers.controller('NavCtrl', ['$rootScope','$log','$location','$sessionStorage','AuthProviderService',
@@ -33,6 +34,11 @@
     }
   ]);
 
+  salesListControllers.controller('SalesListCtrl', ['$scope','$log',
+    function($scope, $log) {
+      // $log.log('Home Controller');
+    }
+  ]);
 
   processingControllers.controller('ProcessingCtrl', ['$scope','$log', 'ProcessingService',
     function($scope, $log, ProcessingService) {

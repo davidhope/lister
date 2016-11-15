@@ -7,6 +7,7 @@
   var statusTypeServices = angular.module('statusTypeServices', ['ngResource']);
   var authProviderServices = angular.module('authProviderServices', ['ngResource']);
   var processingServices = angular.module('processingServices', ['ngResource']);
+  var salesListServices = angular.module('salesListServices', ['ngResource']);
 
   listingServices.factory('ListingService', ['$resource',
     function($resource){
@@ -15,6 +16,13 @@
       });
     }
   ]);
+
+  salesListServices.factory('SalesListService', ['$resource',
+    function($resource){
+      return $resource('services/saleslist/:id',null,{});
+    }
+  ]);
+
 
   statusTypeServices.factory('StatusTypeService', ['$resource',
     function($resource){

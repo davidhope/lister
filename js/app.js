@@ -7,6 +7,7 @@
     'ngStorage',
     'navControllers',
     'homeControllers',
+    'salesListControllers',
     'processingControllers',
     'authControllers',
     'listingAnimations',
@@ -15,7 +16,8 @@
     'listingServices',
     'authProviderServices',
     'processingServices',
-    'statusTypeServices'
+    'statusTypeServices',
+    'salesListServices'
   ]);
 
   

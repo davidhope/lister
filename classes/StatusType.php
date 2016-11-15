@@ -1,5 +1,5 @@
 <?php
-	require_once('JsonDataObject.php');
+require_once('JsonDataObject.php');
 Class StatusType extends JsonDataObject
 {
 	public $statusTypeId;
