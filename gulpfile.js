@@ -102,15 +102,6 @@ gulp.task('bower', function() {
     .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest('assets/js'));
 
-  
-  /*
-  bower()
-    .pipe(sourcemaps.init())
-    .pipe(concat('vendor.min.js'))
-    .pipe(sourcemaps.write('maps'))
-    .pipe(gulp.dest('dist/js'));
-  */
-
 }); 
 
 gulp.task('lint', function() {
